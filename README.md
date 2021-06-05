@@ -8,7 +8,7 @@ docker run --rm -dit -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD
 
 `pg_isready`
 Ответ CLI:
-:5432 - принимает подключения
+`:5432 - принимает подключения`
 
 #### Коннект к БД из CLI:
 
