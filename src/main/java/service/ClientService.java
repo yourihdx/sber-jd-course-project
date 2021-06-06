@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -16,23 +17,26 @@ public class ClientService {
     @Autowired
     private final ClientsRepository clientsRepository;
 
-    public ClientService(ClientsRepository clientsRepository){
+    public ClientService(ClientsRepository clientsRepository) {
         this.clientsRepository = clientsRepository;
     }
 
-    public void createClient(Client client){
+    public void createClient(Client client) {
+        client.setDeleted(false);
         clientsRepository.save(client);
     }
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    public List<Client> findAll(){
-        return clientsRepository.findAll();
+    public List<Client> findAll() {
+        List<Client> result = clientsRepository.findAll().stream().filter(it -> !it.isDeleted()).collect(Collectors.toList());
+        return result;
     }
 
-    public Client findById(int id){
-        return clientsRepository.getOne(id);
+    public Client findById(int id) {
+        return clientsRepository.getById(id);
     }
 
-    public List<Client> findAllByName(String name){
+    public List<Client> findAllByName(String name) {
         return clientsRepository.findAllByFull_name(name);
     }
 
@@ -42,13 +46,13 @@ public class ClientService {
             clientsRepository.save(client);
             return true;
         }
-
         return false;
     }
 
     public boolean delete(int id) {
         if (clientsRepository.existsById(id)) {
-            clientsRepository.deleteById(id);
+            Client client = clientsRepository.getById(id);
+            client.setDeleted(true);
             return true;
         }
         return false;
