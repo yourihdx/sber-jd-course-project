@@ -47,5 +47,16 @@ insert into loan (bank_id, percent_rate, max_period, max_sum) values
 (22, 0.089, 60, 2000000);
 GO;
 insert into client(full_name, birth_date, phone_number, email, passport_series_num) values
-('Банк Восточный', '1978-03-15', '7-495-123-45-55', 'ivanov@example.com', '7707323232');
+('Иванов Иван Иванович', '1978-03-15', '7-495-123-45-55', 'ivanov@example.com', '7707323232'),
+('Петров Петр Петрович', '1986-12-08', '7-495-123-77-00', 'petrov@mail.example.com', '7707555001'),
+('Сергеева Оксана Владимировна', '1992-06-20', '7-495-444-55-23', 'oxannas@mail.ru', '4310123050');
+GO;
+insert into dict_product_type(short_description) values
+('аннуитетные платежи'),
+('дифференцированные платежи');
+GO;
+insert into dict_loan_offer_status(id, short_description) values
+(0, 'отказ'),
+(1, 'одобрение'),
+(2, 'заявка на доработке');
 GO;

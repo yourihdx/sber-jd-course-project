@@ -37,13 +37,23 @@
 		</createTable>
 		
         <createTable tableName="loan">
-            <column name="type_id" type="integer" autoIncrement="true" remarks="product_type"> 
+            <column name="type_id" type="integer" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="product_type_id" type="int"/>
             <column name="bank_id" type="integer"/>
             <column name="max_sum" type="money"/> 
             <column name="max_period" type="money"/>
             <column name="percent_rate" type="decimal"/>
+            <column name="comment" type="varchar(500)"/>
+            <column name="is_deleted" type="boolean" defaultValue="0"/>
+        </createTable>
+
+        <createTable tableName="dict_product_type">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="short_description" type="varchar(50)"/>
             <column name="is_deleted" type="boolean" defaultValue="0"/>
         </createTable>
 		
@@ -52,14 +62,22 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="client_id" type="integer"/>
-            <column name="loan_type_id" type="integer"/>
-            <column name="product_type_id" type="bigint"/>
+            <column name="product_type_id" type="integer"/>
+            <column name="bank_id" type="integer"/>
             <column name="credit_sum" type="money"/>
             <column name="payment_day" type="integer"/>
             <column name="payment" type="money"/>
             <column name="principal_payment_amount" type="money"/>
             <column name="percent_payment_amount" type="money"/>
+            <column name="status" type="integer"/>
             <column name="is_deleted" type="boolean" defaultValue="0"/>
+        </createTable>
+
+        <createTable tableName="dict_loan_offer_status">
+            <column name="id" type="integer">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="short_description" type="varchar(50)"/>
         </createTable>
 		
 		<sqlFile path="/sql/insert_data.sql"/>
