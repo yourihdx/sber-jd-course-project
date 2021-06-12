@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="ru.sberbank.coursework.demo.domain.Bank" table="bank">
+        <meta attribute="class-description">
+            This class contains banks info
+        </meta>
+
+        <id name="id" type="int" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="bankName" column="bank_name" type="string"/>
+    </class>
+    <class name="ru.sberbank.coursework.demo.domain.Client" table="client">
+        <meta attribute="class-description">
+            This class contains client info
+        </meta>
+
+        <id name="id" type="int" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="fullName" column="full_name" type="string"/>
+        <property name="birthDate" column="birth_date" type="java.time.LocalDate"/>
+        <property name="phoneNumber" column="phone_number" type="string"/>
+        <property name="email" column="email" type="string"/>
+        <property name="passportSeriesNum" column="passport_series_num" type="string"/>
+<!--        <property name="isDeleted" column="is_deleted" type="boolean"/>-->
+    </class>
+    <class name="ru.sberbank.coursework.demo.domain.Credit" table="loan">
+        <meta attribute="class-description">
+            This class contains loan info
+        </meta>
+
+        <id name="id" type="int" column="type_id">
+            <generator class="identity"/>
+        </id>
+        <property name="bankId" column="bank_id" type="integer"/>
+        <property name="maxSum" column="max_sum" type="big_decimal"/>
+        <property name="maxPeriod" column="max_period" type="big_decimal"/>
+        <property name="percentRate" column="percent_rate" type="big_decimal"/>
+<!--        <property name="isDeleted" column="is_deleted" type="boolean"/>-->
+    </class>
+
+</hibernate-mapping>
