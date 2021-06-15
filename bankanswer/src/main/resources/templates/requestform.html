@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="stylesheet" type="text/css" href="style3.css">
+
+<head>
+</head>
+<body>
+<form method="POST" action="form">
+<table>
+<tr>
+<td><p><b>ID: </b></p></td><td> <input type="text" name="id"></td>
+</tr>
+<tr>
+<td><p><b>Банк: </b></p></td><td> <input type="text" name="bank"></td>
+</tr>
+<tr>
+<td><p><b>REST-запрос(иначе - KAFKA) </b></p></td><td> <input type="checkbox" name="rest" value="rest" ></td>
+</tr>
+
+<tr>
+<td><INPUT class="double-border-submit" TYPE=submit name="submit" Value="Отправить"></td>
+</tr>
+</form>
+</table>
+<hr>
+<p th:text="${message}" /></p>
+<hr>
+
+</body>
+</html>
