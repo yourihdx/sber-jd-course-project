@@ -4,7 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<modules>
 		<module>bank_answer</module>
+		<module>credit_system</module>
 	</modules>
+	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
