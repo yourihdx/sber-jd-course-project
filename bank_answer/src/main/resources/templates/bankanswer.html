@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="stylesheet" type="text/css" href="style3.css">
+<meta http-equiv="refresh" content="10">
+<html>
+<head>
+<meta charset="UTF-8"></head>
+<body>
+<p th:text="${time}" />
+<p th:text="${capacitystr}" />
+<form method="POST" action="data">
+<INPUT class="double-border-submit" TYPE=submit name="submit" Value="Обновить"></td>
+</form>
+
+<th:block th:each="rec : ${data}">
+  <div th:switch="${rec.getStatus()}">
+    <p th:case="0" class="no_answer" th:utext="'ID запроса:'+${rec.getLoan_request().getId()}
+    +' Банк: '+${rec.getLoan_request().getBank()}
+    +' Статус: Ответ отрицательный Комментарий: '
+    +${rec.getComment()}">
+    </p>
+    <p th:case="1" class="yes_answer" <div th:utext="'ID запроса:'+${rec.getLoan_request().getId()}
+    +' Банк: '+${rec.getLoan_request().getBank()}
+    +' Статус: Ответ положительный'">
+    </p>
+    <p th:case="2" class="weit_answer" th:utext="'ID запроса:'+${rec.getLoan_request().getId()}
+    +' Банк: '+${rec.getLoan_request().getBank()}
+    +' Ожидание'">
+    </p>
+  </div>
+    <hr>
+</th:block>
+
+
+</body>
+</html>
