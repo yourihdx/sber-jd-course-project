@@ -10,16 +10,11 @@ docker run --rm -dit -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD
 Ответ CLI:
 `:5432 - принимает подключения`
 
-### Для информации:
-###### Коннект к БД из CLI:
+#### Коннект к БД из CLI:
 
 `psql creditsys postgres`
-
-###### Просмотр списка таблиц
-
 `\dt` - список таблиц
 
-#### Применение скрипта liquibase из CLI: 
-###### (применять не нужно, работает при запуске DemoApplication)
+#### Применить скрипт liquibase:
 
 liquibase --username=postgres --password=123 --changeLogFile create_tables.xml update
