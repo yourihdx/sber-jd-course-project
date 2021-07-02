@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Информация о клиенте</title>
+	</head>
+	<body>
+	<h1>Информация о клиенте</h1>
+	<form action="#" th:action="@{/demo/saveReg/}" th:object="${clientData}" method="POST">
+		<h1>Введите регистрационные данные</h1>
+		<table border="1">
+
+			<tr>
+				<td>
+					Логин
+				</td>
+				<td>
+					<input type="text" name="login" th:field="*{login}">
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					Пароль
+				</td>
+				<td>
+					<input type="password" name="password"  th:field="*{password}">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Фамилия, Имя, Отчество
+				</td>
+				<td>
+					<input type="text" name="fio" th:value="${fio}"  th:field="*{fio}">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					День рождения
+				</td>
+				<td>
+					<input type="text" name="birthDate" th:value="${birthDate}"  th:field="*{birthDate}">
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					Номер телефона
+				</td>
+				<td>
+					<input type="text" name="phone" th:value="${phone}"  th:field="*{phone}">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Электронный адрес
+				</td>
+				<td>
+					<input type="text" name="email" th:value="${email}"  th:field="*{email}">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Паспортные данные
+				</td>
+				<td>
+					<input type="text" name="passport" th:value="${passport}"  th:field="*{passport}">
+				</td>
+			</tr>
+		</table>
+		<button name="submit">Сохранить</button>
+	</form>
+	</body>
+</html>

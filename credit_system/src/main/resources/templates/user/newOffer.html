@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Заказ нового кредита</title>
+</head>
+<body>
+<form action="#" th:action="@{/demo/saveOffer/{id}(id=${id})}" th:object="${creditData}" method="POST">
+    <h1>Введите данные по кредиту</h1>
+    <table border="1">
+
+        <tr>
+            <td>
+                Сумма, руб
+            </td>
+            <td>
+                <input type="text" name="limit" th:field="*{limit}"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Срок кредитования, месяцев
+            </td>
+            <td>
+                <input type="text" name="period"  th:field="*{period}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Процентная ставка
+            </td>
+            <td>
+                <input type="text" name="percent" th:field="*{percent}"/>
+            </td>
+        </tr>
+
+    </table>
+<!--    <input type="hidden" name="id" th:value="${id}"/>-->
+    <button name="submit">Сохранить</button>
+</form>
+</body>
+</html>
