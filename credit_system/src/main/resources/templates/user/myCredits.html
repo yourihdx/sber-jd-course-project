@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+<!--		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
+	    <title>Персональные предложения</title>
+	</head>
+
+		<h1>Выбор кредита</h1>
+		<form>
+		<table border="1">
+			<tr>
+				<td>Банк</td>
+				<td>Сумма кредита</td>
+				<td>Срок кредита</td>
+				<td>Процентная ставка</td>
+				<td>Способ гашения</td>
+				<td>Статус заявки</td>
+				<td>График платежей</td>
+				<td>Действия</td>
+			</tr>
+
+			<tr th:each="credit : ${creditsList.credits}">
+				<td th:text="${credit.bank}"></td>
+				<td th:text="${credit.limit}"></td>
+				<td th:text="${credit.period}"></td>
+				<td th:text="${credit.percent}"></td>
+				<td th:text="${credit.payment}"></td>
+				<td th:text="${credit.status}"></td>
+				<td>
+					<input type="hidden" th:value="${credit.id}" />
+					<a href="#" th:href="@{/demo/showPayment/{id}(id=${credit.id})}"  th:if="${credit.statusId} == 1" target="_blank">Посмотреть</a>
+
+				</td>
+				<td>
+					<a href="#"  th:href="@{/demo/checkCredit/{id}/{creditId}(id=${id},creditId=${credit.id})}"  th:if="${credit.statusId} == 1">Оформить кредит</a>
+				</td>
+			</tr>
+		</table>
+	</form>
+	</body>
+</html>

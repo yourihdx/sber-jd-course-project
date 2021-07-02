@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Личный кабинет</title>
+	</head>
+	<body>
+		<h1>Личный кабинет</h1>
+			<table>
+<!--				<tr>-->
+<!--					<td>-->
+<!--						<a href="offers.html" th:href="@{/demo/offers/{id}(id=${id})}">Поданные заявки на кредиты</a>-->
+<!--					</td>-->
+<!--				</tr>-->
+				<tr>
+					<td>
+						<a href="myCredits.html" th:href="@{/demo/myCredits/{id}(id=${id})}">Поданные заявки на кредиты</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<a href="newOffer.html" th:href="@{/demo/newOffer/{id}(id=${id})}">Подать новую заявку на кредит</a>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<a href="update.html" th:href="@{/demo/update/{id}(id=${id})}">Изменить персональные данные</a>
+					</td>
+				</tr>
+		</table>
+	</body>
+</html>

@@ -1,4 +1,4 @@
-package ru.sberbank.coursework.demo.controllers;
+package ru.sberbank.coursework.demo.controllers.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +10,6 @@ public class AdminController {
     @GetMapping(value = "/admin")
     public String getAllBanks(Model model) {
 
-        return "admin";
+        return "admin/admin";
     }
 }
