@@ -1,4 +1,4 @@
-package ru.sberbank.coursework.demo.controllers;
+package ru.sberbank.coursework.demo.controllers.admin;
 
 
 import org.hibernate.SessionFactory;
@@ -12,8 +12,7 @@ import ru.sberbank.coursework.demo.domain.Client;
 import java.util.List;
 
 @Controller
-public class ClientController {
-
+public class AdminClientController {
 
     @GetMapping(value = "/clients")
     public String getAllClients(Model model) {
@@ -21,7 +20,7 @@ public class ClientController {
         ClientDao clientDao = new ClientDao(sessionFactory);
         List<Client> clients = clientDao.getAllClients();
         model.addAttribute("clientList", clients);
-        return "clients";
+        return "admin/clients";
     }
 
     @PostMapping(value = "/clients")
@@ -31,7 +30,7 @@ public class ClientController {
         clientDao.create(client);
         List<Client> clients = clientDao.getAllClients();
         model.addAttribute("clientList", clients);
-        return "clients";
+        return "admin/clients";
     }
 
     @PostMapping("/clients/{id}")
@@ -45,7 +44,7 @@ public class ClientController {
         clientDao.updateClient(client);
         List<Client> clients = clientDao.getAllClients();
         model.addAttribute("clientList", clients);
-        return "clients";
+        return "admin/clients";
     }
 
     @GetMapping("/clients/delete/{id}")
@@ -55,7 +54,7 @@ public class ClientController {
         clientDao.deleteClient(id);
         List<Client> clients = clientDao.getAllClients();
         model.addAttribute("clientList", clients);
-        return "clients";
+        return "admin/clients";
     }
 
     @GetMapping("/clients/{id}")
@@ -65,6 +64,6 @@ public class ClientController {
         ClientDao clientDao = new ClientDao(sessionFactory);
         Client client = clientDao.getClient(ids);
         model.addAttribute("client",client);
-        return "client";
+        return "admin/client";
     }
 }

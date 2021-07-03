@@ -1,15 +1,16 @@
-package ru.sberbank.coursework.bank_answer.request_module;
+package ru.sberbank.coursework.demo.request_module;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class KafkaSender {
 
-    private final Logger logger = LoggerFactory.getLogger(KafkaSender.class);
 
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
@@ -22,10 +23,10 @@ public class KafkaSender {
      */
     public void sendOrder(String msgId, String msg) {
         try {
-            logger.info(String.format("Kafka-CS-Sender - message: %s", "Send KAFKA " + msg + " to kafka: bankanswer"));
+            System.out.println("Sender: " + msgId + " " + msg);
             kafkaTemplate.send("bankanswer", msgId, msg);
         } catch (Exception e) {
-            logger.error(String.format("Kafka-CS-Sender - ERROR: %s", e.toString()));
+            System.out.println("Error sender: " + e.toString());
         }
     }
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Банки</title>
+</head>
+<body>
+<h1>Список всех банков</h1>
+<!--Thymeleaf modified page-->
+<table border="1">
+    <tr>
+        <td>Название банка</td>
+    </tr>
+
+    <tr th:each="bank : ${bankList}">
+
+        <td th:text="${bank.bankName}"/></td>
+
+        <td> <a th:href="@{/bankss/{id}(id=${bank.id})}">Edit</a></td>
+        <td><a th:href="@{/deleteBank/{id}(id=${bank.id})}">Delete</a></td>
+    </tr>
+
+</table>
+<br><br>
+
+<h2>Введите данные, чтобы добавить новый банк</h2>
+
+<form action="/bankss" method="POST">
+
+    <table bordercolor="white" border="1" width="40%">
+
+        <tr>
+            <td><label>Название банка</label></td>
+            <td><input type="text" name="bankName"></td>
+        </tr>
+
+    </table><br>
+
+    <input type="submit" value="Сохранить">
+
+</form>
+
+</body>
+</html>

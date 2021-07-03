@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Параметры кредита</title>
+</head>
+<body>
+<form action="#" th:action="@{/demo/approveOffer/{id}(id=${id})}" th:object="${creditData}" method="POST">
+    <h1>Проверка параметров кредита для оформления</h1>
+    <table border="1">
+        <tr>
+            <td>
+                Банк
+            </td>
+            <td>
+                <input type="text" name="bank"  th:field="*{bank}" readonly>
+                <input type="hidden" name="bankId"  th:field="*{bankId}" readonly>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Сумма, руб
+            </td>
+            <td>
+                <input type="text" name="limit"  th:field="*{limit}" readonly>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Срок кредитования, месяцев
+            </td>
+            <td>
+                <input type="text" name="period" th:field="*{period}" readonly>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Процентная ставка
+            </td>
+            <td>
+                <input type="text" name="percent" th:field="*{percent}" readonly>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Способ платежа
+            </td>
+            <td>
+                <input type="text" name="percent" th:field="*{payment}" readonly>
+            </td>
+        </tr>
+<!--        <tr>-->
+<!--           <td>-->
+<!--               Страховка-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <input type="text" name="insurance" th:checked="*{insurance}" th:field="*{insurance}" disabled>&ndash;&gt;-->
+<!--           </td>-->
+<!--        </tr>-->
+    </table>
+    <button name="submit">Оформить кредит</button>
+</form>
+</body>
+</html>
