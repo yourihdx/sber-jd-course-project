@@ -1,11 +1,13 @@
-package ru.sberbank.coursework.demo.controllers;
+package ru.sberbank.coursework.demo.controllers.admin;
 
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import ru.sberbank.coursework.demo.dao.CreditDao;
 import ru.sberbank.coursework.demo.domain.Credit;
 
@@ -21,7 +23,7 @@ public class CreditController {
         CreditDao creditDao = new CreditDao(sessionFactory);
         List<Credit> credits = creditDao.getAllCredits();
         model.addAttribute("creditList", credits);
-        return "credits";
+        return "admin/credits";
     }
 
     @PostMapping(value = "/credits")
@@ -31,7 +33,7 @@ public class CreditController {
         creditDao.createCredit(credit);
         List<Credit> credits = creditDao.getAllCredits();
         model.addAttribute("creditList", credits);
-        return "credits";
+        return "admin/credits";
     }
 
     @PostMapping("/credits/{id}")
@@ -44,7 +46,7 @@ public class CreditController {
         creditDao.updateCredit(credit);
         List<Credit> credits = creditDao.getAllCredits();
         model.addAttribute("creditList", credits);
-        return "credits";
+        return "admin/credits";
     }
 
     @GetMapping("/deleteCredit/{id}")
@@ -54,7 +56,7 @@ public class CreditController {
         creditDao.deleteCredit(id);
         List<Credit> credits = creditDao.getAllCredits();
         model.addAttribute("creditList", credits);
-        return "credits";
+        return "admin/credits";
     }
 
     @GetMapping("/credits/{id}")
@@ -66,6 +68,6 @@ public class CreditController {
         model.addAttribute("credit", credit);
         List<Credit> credits = creditDao.getAllCredits();
         model.addAttribute("creditList", credits);
-        return "credit";
+        return "admin/credit";
     }
 }

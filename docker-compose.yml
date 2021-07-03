@@ -21,6 +21,9 @@ services:
       POSTGRES_PASSWORD: 123
       POSTGRES_USER: postgres
       POSTGRES_DB: creditsys
+      LANGUAGE: ru_RU.UTF-8
+      LANG: ru_RU.UTF-8
+      LC_ALL: ru_RU.UTF-8
     ports:
       - "5432:5432"
 #  liquibase:
@@ -32,9 +35,9 @@ services:
     ports:
       - "8086:8086"
     command: java -jar ./app/bank_answer.jar
-#  credit_system:
-#    build: ./credit_system
-#    restart: always
-#    ports:
-#      - "8080:8080"
-#    command: java -jar ./app/credit_system.jar
+  credit_system:
+    build: ./credit_system
+    restart: always
+    ports:
+      - "8080:8080"
+    command: java -jar ./app/credit_system.jar

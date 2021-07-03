@@ -2,7 +2,6 @@ package ru.sberbank.coursework.demo.domain;
 
 import lombok.Data;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Data

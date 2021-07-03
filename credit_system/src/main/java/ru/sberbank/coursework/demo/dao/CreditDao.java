@@ -32,7 +32,8 @@ public class CreditDao {
             return false;
         }
     }
-    public List<Credit> getAllCredits(){
+
+    public List<Credit> getAllCredits() {
         Transaction transaction = null;
         try (Session session = this.sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -49,7 +50,7 @@ public class CreditDao {
         }
     }
 
-    public Credit getCredit(int creditId){
+    public Credit getCredit(int creditId) {
         Transaction transaction = null;
         try (Session session = this.sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -66,7 +67,7 @@ public class CreditDao {
         }
     }
 
-    public boolean updateCredit(Credit credit){
+    public boolean updateCredit(Credit credit) {
         Transaction transaction = null;
         try (Session session = this.sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -83,7 +84,7 @@ public class CreditDao {
         }
     }
 
-    public boolean deleteCredit(int creditId){
+    public boolean deleteCredit(int creditId) {
         Transaction transaction = null;
         try (Session session = this.sessionFactory.openSession()) {
             transaction = session.beginTransaction();

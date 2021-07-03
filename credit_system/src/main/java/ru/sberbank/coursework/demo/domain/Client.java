@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
-
 @Data
 public class Client {
 
@@ -15,6 +14,4 @@ public class Client {
     private String email;
     private String passportSeriesNum;
     private boolean isDeleted;
-
-
 }
