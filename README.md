@@ -23,3 +23,5 @@ docker run --rm -dit -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD
 ###### (применять не нужно, работает при запуске DemoApplication)
 
 liquibase --username=postgres --password=123 --changeLogFile create_tables.xml update
+
+#### Ветка master_copy для проверки слияния
