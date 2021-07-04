@@ -20,8 +20,9 @@ import java.util.Objects;
 
 @Controller
 public class RequestController {
-    private String POST_URL1 = "http://localhost:8086/bankanswer/json_in";
-    private String KAFKA_ADDR = "test_sender";
+    //Обратные адреса для получения ответа
+    private String POST_URL1 = "http://localhost:8080/json_in";
+    private String KAFKA_ADDR = "credit_sender";
     private static Boolean restchecked = true;
 
     @Autowired
@@ -29,7 +30,7 @@ public class RequestController {
 
     private final KafkaSender kafkaSender;
 
-//    private final Logger logger = LoggerFactory.getLogger(KafkaAnswerReciever.class);
+    private final Logger logger = LoggerFactory.getLogger(RequestController.class);
 
     /**
      * Конструктор по умолчанию
@@ -117,7 +118,7 @@ public class RequestController {
             try {
                 json_string = mapper.writeValueAsString(loan_request);
             } catch (JsonProcessingException e) {
-//                logger.error(String.format("BF-Controller - ERROR: %s", e.toString()));
+                logger.error(String.format("СЫ-Controller - ERROR: %s", e.toString()));
             }
             if (restchecked) {
                 restFormSender.sendOrder(loan_request);

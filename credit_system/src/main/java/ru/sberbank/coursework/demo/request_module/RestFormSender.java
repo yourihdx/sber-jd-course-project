@@ -14,7 +14,7 @@ public class RestFormSender {
 
     private String POST_URL = "http://localhost:8086/bankanswer/form_in";
 
-//    private final Logger logger = LoggerFactory.getLogger(KafkaAnswerReciever.class);
+    private final Logger logger = LoggerFactory.getLogger(RestFormSender.class);
 
     /**
      * Отправка сообщения через REST
@@ -27,6 +27,6 @@ public class RestFormSender {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Loan_request> entity = new HttpEntity<>(loan_request, headers);
         Loan_request answ = restTemplate.postForObject(POST_URL, loan_request, Loan_request.class);
-//        logger.info(String.format("REST-BF-SENDER - message: %s", "Send REST " + loan_request.toString() + "to HTTP: " + POST_URL));
+        logger.info(String.format("REST-CS-SENDER - message: %s", "Send REST " + loan_request.toString() + "to HTTP: " + POST_URL));
     }
 }

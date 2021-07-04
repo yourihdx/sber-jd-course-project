@@ -15,7 +15,7 @@ import ru.sberbank.coursework.demo.repositories.LoanOfferCrudRepository;
 @EnableKafka
 @Service
 public class KafkaReciever {
-//    private final Logger logger = LoggerFactory.getLogger(KafkaAnswerReciever.class);
+    private final Logger logger = LoggerFactory.getLogger(KafkaReciever.class);
 private AnswerList answerList = AnswerList.getInstance();
 //    LoanOfferCrudRepository loanOfferCrudRepository;
     /**
@@ -23,16 +23,16 @@ private AnswerList answerList = AnswerList.getInstance();
      * Вывод информации о получении ответа в логер
      * @param msg Строка сообщения
      */
-    @KafkaListener(topics = "test_sender", groupId = "app.1")
+    @KafkaListener(topics = "credit_sender", groupId = "app.1")
     public void msgListener(String msg) {
         ObjectMapper mapper = new ObjectMapper();
         AnswerData answerData = new AnswerData();
         try {
         answerData  = mapper.readValue(msg, AnswerData.class);
         } catch (JsonProcessingException e) {
-            System.out.println(e);
+            logger.error(String.format("Kafka-CS-Reciever - error: %s", e.toString());
         }
         answerList.add(answerData);
-
-   }
+        logger.info(String.format("Kafka-CS-Reciever - message: %s", "Recieve KAFKA " + msg));
+    }
 }

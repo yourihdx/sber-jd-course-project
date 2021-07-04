@@ -51,8 +51,8 @@ public class MyController {
     @Autowired
     LoanTypeCrudRepository loanTypeCrudRepository;
 
-    private String POST_URL1 = "http://localhost:8086/bankanswer/json_in";
-    private String KAFKA_ADDR = "test_sender";
+    private String POST_URL1 = "http://localhost:8080/json_in";
+    private String KAFKA_ADDR = "credit_sender";
     private static Boolean restchecked = false;
 
 
@@ -69,9 +69,10 @@ public class MyController {
     @GetMapping(value = "/")
     public String startPage(ModelMap map) {
         map.addAttribute("clientData", new ClientData());
-        map.addAttribute("message","Введите логин и пароль");
+        map.addAttribute("message", "Введите логин и пароль");
         return "user/login";
     }
+
     /*
     Регистрация нового пользователя client
      */
@@ -98,7 +99,7 @@ public class MyController {
     @PostMapping(value = "/login/")
     // Get Client by Login/Password
     // Проверка пользователя по login/password
-        public String login(@ModelAttribute ClientData client, ModelMap map) {
+    public String login(@ModelAttribute ClientData client, ModelMap map) {
 
 
         List<Client> clients = clientCrudRepository.findClientByLoginAndPasswordAndIsDeletedIsFalse(client.getLogin(), client.getPassword());
@@ -106,7 +107,7 @@ public class MyController {
             map.addAttribute("id", clients.get(0).getId());
             return "user/client";
         }
-        map.addAttribute("message","Клиент с такими регистрационными данными не найден.");
+        map.addAttribute("message", "Клиент с такими регистрационными данными не найден.");
         return "user/login";
     }
 
@@ -131,7 +132,7 @@ public class MyController {
         }
         Client clients = clientCrudRepository.save(pojoClient);
         map.addAttribute("id", clients.getId());
-            return "user/client";
+        return "user/client";
     }
 
     @PostMapping(value = "/updateReg/")
@@ -142,13 +143,13 @@ public class MyController {
                 LocalDate.parse(client.getBirthDate()), client.getPhone(), client.getEmail(),
                 client.getPassport(), client.getLogin(), client.getPassword());
         pojoClient.setId((int) client.getId());
-List<Client> clientsByPassport = clientCrudRepository.findClientBypassportSeriesNumAndIdIsNotEqualAndIsDeletedIsFalse(pojoClient.getPassportSeriesNum(), pojoClient.getId());
-if (clientsByPassport.size() > 0) {
-    map.addAttribute("clientData", client);
-    return "user/update";
-}
-    clientCrudRepository.save(pojoClient);
-    map.addAttribute("id", client.getId());
+        List<Client> clientsByPassport = clientCrudRepository.findClientBypassportSeriesNumAndIdIsNotEqualAndIsDeletedIsFalse(pojoClient.getPassportSeriesNum(), pojoClient.getId());
+        if (clientsByPassport.size() > 0) {
+            map.addAttribute("clientData", client);
+            return "user/update";
+        }
+        clientCrudRepository.save(pojoClient);
+        map.addAttribute("id", client.getId());
         return "user/client";
     }
 
@@ -158,19 +159,19 @@ if (clientsByPassport.size() > 0) {
         AnswerList answerList = AnswerList.getInstance();
         while (answerList.size() > 0) {
             AnswerData answerData = answerList.getRec();
-LoanOffer loanOffer = loanOfferCrudRepository.findLoanById(Integer.parseInt(answerData.getId()));
-loanOffer.setStatus(answerData.getRes());
-loanOffer = loanOfferCrudRepository.save(loanOffer);
+            LoanOffer loanOffer = loanOfferCrudRepository.findLoanById(Integer.parseInt(answerData.getId()));
+            loanOffer.setStatus(answerData.getRes());
+            loanOffer = loanOfferCrudRepository.save(loanOffer);
         }
 
-        List<LoanOfferList> loans = loanOfferJpaRepository.findAllByClientId((int)clientId);
+        List<LoanOfferList> loans = loanOfferJpaRepository.findAllByClientId((int) clientId);
 
         ArrayList<OfferForm> credits = new ArrayList<>();
         OfferForm offerForm;
         for (LoanOfferList loan : loans) {
             offerForm = new OfferForm();
             offerForm.setBank(loan.getBankName());
-            offerForm.setLimit((long)loan.getLimit());
+            offerForm.setLimit((long) loan.getLimit());
             offerForm.setId(loan.getId());
             offerForm.setPayment(loan.getPayment());
             offerForm.setPeriod(loan.getPeriod());
@@ -214,7 +215,7 @@ loanOffer = loanOfferCrudRepository.save(loanOffer);
 
         ArrayList<OfferForm> credits = new ArrayList<>();
         for (LoanList loan : loans) {
-            credits.add(new OfferForm(loan.getBankName(), loan.getBankId(), (long)loan.getLimit(),
+            credits.add(new OfferForm(loan.getBankName(), loan.getBankId(), (long) loan.getLimit(),
                     loan.getPeriod(), loan.getPercent(), credit.getLimit(), credit.getPeriod(), credit.getPercent(),
                     loan.getId(), loan.getPayment(), loan.getPaymentId(), false, 3, "", false));
         }
@@ -230,19 +231,19 @@ loanOffer = loanOfferCrudRepository.save(loanOffer);
     public String saveOffer(@PathVariable("id") long clientId, @ModelAttribute CreditsList creditsList, ModelMap map) {
         // Send selected offers to banks to approve
         // Выбор клиентом предложений банков, выбор страховки и отправка их на одобрение
-double addPercent = 0.03;
-long addInsurance = 100000L;
+        double addPercent = 0.03;
+        long addInsurance = 100000L;
         ArrayList<LoanOffer> loanOffers = new ArrayList<>();
         OfferForm offer;
         LoanOffer loan;
-        for(int i = 0; i < creditsList.getCredits().size(); i++) {
+        for (int i = 0; i < creditsList.getCredits().size(); i++) {
             offer = creditsList.getCredits().get(i);
             if (offer.isSelected()) {
-                loan = new LoanOffer((int)clientId, (int)offer.getId(), offer.getPaymentId(), offer.getBankId(),
-                        BigDecimal.valueOf(offer.isInsurance()?offer.getReqLimit()+addInsurance:offer.getReqLimit()), offer.getReqPeriod(),
-                         offer.isInsurance()?offer.getPercent():offer.getPercent()+addPercent,
+                loan = new LoanOffer((int) clientId, (int) offer.getId(), offer.getPaymentId(), offer.getBankId(),
+                        BigDecimal.valueOf(offer.isInsurance() ? offer.getReqLimit() + addInsurance : offer.getReqLimit()), offer.getReqPeriod(),
+                        offer.isInsurance() ? offer.getPercent() : offer.getPercent() + addPercent,
                         0, BigDecimal.valueOf(0),
-                        BigDecimal.valueOf(offer.isInsurance()?offer.getReqLimit()+addInsurance:offer.getReqLimit()),
+                        BigDecimal.valueOf(offer.isInsurance() ? offer.getReqLimit() + addInsurance : offer.getReqLimit()),
                         BigDecimal.valueOf(0), 2);
                 loanOffers.add(loan);
 
@@ -252,7 +253,7 @@ long addInsurance = 100000L;
                 Bank bank = bankCrudRepository.findById(loanPojo.getBankId());
                 Payment loanType = loanTypeCrudRepository.findById(loanPojo.getProductTypeId());
 
-                sendRequest(loan,clientPojo,
+                sendRequest(loan, clientPojo,
                         loanPojo, bank, loanType);
 
             }
@@ -320,17 +321,16 @@ long addInsurance = 100000L;
     }
 
 
-
     @GetMapping(value = "/checkCredit/{id}/{creditId}")
     public String checkCredit(@PathVariable("id") long clientId, @PathVariable("creditId") long creditId, ModelMap map) {
-        LoanOfferList loan = loanOfferJpaRepository.findLoanOfferById((int)creditId);
+        LoanOfferList loan = loanOfferJpaRepository.findLoanOfferById((int) creditId);
         OfferForm credit = new OfferForm();
         credit.setPercent(loan.getPercent());
         credit.setPeriod(loan.getPeriod());
         credit.setBank(loan.getBankName());
         credit.setBankId(loan.getBankId());
         credit.setPayment(loan.getPayment());
-        credit.setLimit((long)loan.getLimit());
+        credit.setLimit((long) loan.getLimit());
 
         // get Credit by id
         // Поиск кредитов, выбранных пользователем с отметкой об одобрении approove=true
@@ -343,7 +343,7 @@ long addInsurance = 100000L;
     public String approveCredit(@PathVariable("id") long clientId, @ModelAttribute("creditData") OfferForm creditData, ModelMap map) {
         // Find credit by credit.id
         // форма для окончательной отправки заявки на оформление кредита
-        Agreement agreement = new Agreement(creditData.getBankId(), (int)clientId, (int)creditData.getId(),
+        Agreement agreement = new Agreement(creditData.getBankId(), (int) clientId, (int) creditData.getId(),
                 BigDecimal.valueOf(creditData.getLimit()), LocalDate.parse("1970-01-01"), creditData.getPeriod());
         agreement = agreementCrudRepository.save(agreement);
         map.addAttribute("id", clientId);

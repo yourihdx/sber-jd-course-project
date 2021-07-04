@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RequestRestController {
 
-//    private final Logger logger = LoggerFactory.getLogger(KafkaAnswerReciever.class);
+    private final Logger logger = LoggerFactory.getLogger(RequestRestController.class);
 
     private Object AnswerData;
 
@@ -23,7 +23,7 @@ public class RequestRestController {
      */
     @PostMapping("/json_in")
     ResponseEntity<String> createAnsw(@RequestBody String answerData) {
-//        logger.info(String.format("BF-RESTController - message: %s", "Recieve REST " + answerData));
+        logger.info(String.format("CЫ-RESTController - message: %s", "Recieve REST " + answerData));
         return ResponseEntity.ok().build();
     }
 }
