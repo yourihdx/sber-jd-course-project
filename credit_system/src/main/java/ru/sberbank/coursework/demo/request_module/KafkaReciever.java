@@ -30,7 +30,7 @@ private AnswerList answerList = AnswerList.getInstance();
         try {
         answerData  = mapper.readValue(msg, AnswerData.class);
         } catch (JsonProcessingException e) {
-            logger.error(String.format("Kafka-CS-Reciever - error: %s", e.toString());
+            logger.error(String.format("Kafka-CS-Reciever - error: %s", e.toString()));
         }
         answerList.add(answerData);
         logger.info(String.format("Kafka-CS-Reciever - message: %s", "Recieve KAFKA " + msg));

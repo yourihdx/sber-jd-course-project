@@ -13,6 +13,7 @@ import ru.sberbank.coursework.demo.data.AnswerData;
 import ru.sberbank.coursework.demo.data.AnswerList;
 import ru.sberbank.coursework.demo.data.Loan_Offer;
 import ru.sberbank.coursework.demo.data.Loan_request;
+import ru.sberbank.coursework.demo.mail.Send;
 import ru.sberbank.coursework.demo.request_module.KafkaSender;
 import ru.sberbank.coursework.demo.request_module.RestFormSender;
 import ru.sberbank.coursework.demo.ClientData;
@@ -132,6 +133,7 @@ public class MyController {
         }
         Client clients = clientCrudRepository.save(pojoClient);
         map.addAttribute("id", clients.getId());
+        Send.SendEmail(clients.getEMail(), "Добро пожаловать на портал агрегации кредитных предложений", "Ваш логин: " + clients.getLogin() + " Ваш пароль: " + clients.getPassword());
         return "user/client";
     }
 
