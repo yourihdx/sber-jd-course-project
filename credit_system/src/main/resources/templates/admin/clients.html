@@ -23,12 +23,13 @@
         <td th:text="${client.email}"/></td>
         <td th:text="${client.passportSeriesNum}"/></td>
         <td><a th:href="@{/clients/{id}(id=${client.id})}">Edit</a></td>
-        <td><a href="@{/delete/{id}(id=${client.id})}">Delete</a></td>
+        <td><a th:href="@{/clients/delete/{id}(id=${client.id})}">Delete</a></td>
     </tr>
 
 </table>
 <br><br>
-<%--<a href=addNewClient>Add new field</a>--%>
+
+<a href="/admin">Назад</a><br><br>
 
 <h2>Введите данные, чтобы добавить нового клиента</h2>
 

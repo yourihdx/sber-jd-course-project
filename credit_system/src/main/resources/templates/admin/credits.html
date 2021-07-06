@@ -20,11 +20,13 @@
         <td th:text="${credit.maxSum}"/></td>
         <td th:text="${credit.maxPeriod}"/></td>
         <td th:text="${credit.percentRate}"/></td>
-        <td><a href="@{/credits/{id}(id=${credit.id})}">Edit</a></td>
-        <td><a href="@{/deleteCredit/{id}(id=${credit.id})}">Delete</a></td>
+        <td><a th:href="@{/credits/{id}(id=${credit.id})}">Edit</a></td>
+        <td><a th:href="@{/deleteCredit/{id}(id=${credit.id})}">Delete</a></td>
     </tr>
 </table>
 <br><br>
+
+<a href="/admin">Назад</a><br><br>
 
 <h2>Введите данные, чтобы добавить новое кредитное предложение</h2>
 

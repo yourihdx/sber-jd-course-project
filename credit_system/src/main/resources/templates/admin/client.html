@@ -24,11 +24,11 @@
         <td th:text="${client.email}"/></td>
         <td th:text="${client.passportSeriesNum}"/></td>
         <td><a href="/clients">Cancel</a></td>
-        <td><a th:href="@{/delete/{id}(id=${client.id})}">Delete</a></td>
+        <td><a th:href="@{/clients/delete/{id}(id=${client.id})}">Delete</a></td>
     </tr>
 </table>
 <br><br>
-<%--<a href=addNewClient>Add new field</a>--%>
+
 
 <h2>Введите данные, чтобы отредактировать клиента</h2>
 

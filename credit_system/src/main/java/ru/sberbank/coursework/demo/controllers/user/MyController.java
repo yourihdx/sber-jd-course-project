@@ -3,6 +3,8 @@ package ru.sberbank.coursework.demo.controllers.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,8 +16,10 @@ import ru.sberbank.coursework.demo.data.AnswerData;
 import ru.sberbank.coursework.demo.data.AnswerList;
 import ru.sberbank.coursework.demo.data.Loan_Offer;
 import ru.sberbank.coursework.demo.data.Loan_request;
+import ru.sberbank.coursework.demo.mail.Send;
 import ru.sberbank.coursework.demo.pojo.*;
 import ru.sberbank.coursework.demo.repositories.*;
+import ru.sberbank.coursework.demo.request_module.KafkaReciever;
 import ru.sberbank.coursework.demo.request_module.KafkaSender;
 import ru.sberbank.coursework.demo.request_module.RestFormSender;
 
@@ -46,14 +50,13 @@ public class MyController {
     @Autowired
     LoanTypeCrudRepository loanTypeCrudRepository;
 
-    private String POST_URL1 = "http://localhost:8080/json_in";
     private String KAFKA_ADDR = "credit_sender";
-    private static Boolean restchecked = false;
-
 
     private final RestFormSender restFormSender;
 
     private final KafkaSender kafkaSender;
+
+    private final Logger logger = LoggerFactory.getLogger(MyController.class);
 
     @Autowired
     MyController(RestFormSender restFormSender, KafkaSender kafkaSender) {
@@ -127,6 +130,7 @@ public class MyController {
         }
         Client clients = clientCrudRepository.save(pojoClient);
         map.addAttribute("id", clients.getId());
+        Send.SendEmail(clients.getEMail(), "Добро пожаловать на портал агрегации кредитных предложений", "Ваш логин: " + clients.getLogin() + " Ваш пароль: " + clients.getPassword());
         return "user/client";
     }
 
@@ -260,12 +264,8 @@ public class MyController {
 
     private void sendRequest(LoanOffer loanOffer, Client clientPojo,
                              Loan loanPojo, Bank bank, Payment loanType) {
-        String addr_str;
-        if (restchecked) {
-            addr_str = POST_URL1;
-        } else {
-            addr_str = KAFKA_ADDR;
-        }
+        String addr_str = KAFKA_ADDR;
+
 
         ru.sberbank.coursework.demo.data.Client client = ru.sberbank.coursework.demo.data.Client.
                 builder().
@@ -305,14 +305,9 @@ public class MyController {
         try {
             json_string = mapper.writeValueAsString(loan_request);
         } catch (JsonProcessingException e) {
-//                logger.error(String.format("BF-Controller - ERROR: %s", e.toString()));
-            System.out.println(e.toString());
+            logger.error(String.format("CS-Controller - ERROR: %s", e.toString()));
         }
-        if (restchecked) {
-            restFormSender.sendOrder(loan_request);
-        } else {
-            kafkaSender.sendOrder(loan_request.getId().toString(), json_string);
-        }
+        kafkaSender.sendOrder(loan_request.getId().toString(), json_string);
     }
 
 
