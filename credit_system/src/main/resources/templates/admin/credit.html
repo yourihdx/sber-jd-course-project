@@ -22,12 +22,11 @@
         <td th:text="${credit.maxPeriod}"/></td>
         <td th:text="${credit.percentRate}"/></td>
         <td><a href="/credits">Cancel</a></td>
-        <td><a href="@{/deleteCredit/{id}(id=${credit.id})}">Delete</a></td>
+        <td><a th:href="@{/deleteCredit/{id}(id=${credit.id})}">Delete</a></td>
     </tr>
 </table>
 <br><br>
 
-<%--<a href=addNewClient>Add new field</a>--%>
 
 <h2>Введите данные, чтобы отредактировать кредитное предложение</h2>
 
