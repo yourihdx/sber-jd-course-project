@@ -1,0 +1,12 @@
+FROM openjdk:8-jre
+
+EXPOSE 8085
+
+RUN mkdir /app
+
+WORKDIR /app
+
+COPY ./target/credit_system-1.0-SNAPSHOT.jar ./app/credit_system.jar
+
+RUN ls
+
