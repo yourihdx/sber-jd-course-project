@@ -9,23 +9,22 @@ public class Sender {
 
     private String username;
     private String password;
-    private Properties props;
+    private Properties prop;
 
     public Sender(String username, String password) {
         this.username = username;
         this.password = password;
 
-        props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        prop = new Properties();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "465");
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.socketFactory.port", "465");
+        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
     }
 
     public void send(String subject, String text, String fromEmail, String toEmail) {
-        Session session = Session.getInstance(props, new Authenticator() {
+        Session session = Session.getInstance(prop, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
@@ -44,8 +43,9 @@ public class Sender {
 
             //Отправляем сообщение
             Transport.send(message);
+            System.out.println("Massage send");
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }
