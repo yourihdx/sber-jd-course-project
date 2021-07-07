@@ -1,22 +1,49 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>Агрегатор кредитных предложений</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Портал</title>
+    <style>
+        body{
+            background-color:LightCyan;
+            text-align:center;
+        }
+
+        div{
+            color:Maroon;
+            background-color:DarkTurquoise;
+            border-style:groove;
+            border-radius:20px;
+        //text-align:center;
+            display:inline-block;
+            align:center;
+            padding:20px;
+            padding-top:1px;
+        }
+        A{
+            color:Maroon;
+        }
+        A:hover{
+            background-color:SkyBlue;
+        }
+
+        p{
+            text-align:left;
+        }
+    </style>
 </head>
-<!--Thymeleaf modified page-->
+
 <body>
-<h1>
-    <p align="center">Агрегатор кредитных предложений</p>
-</h1>
+<div>
+    <H2>
+        Агрегатор кредитных предложений
+    </H2>
 
-<h2>
-    <p align="center">   <a href="/demo/">Хочу подобрать кредит!</a></p><br><br>
-</h2>
-<h5>
-    <p align="center"><a href="/admin">Я администратор</a></p><br><br>
-</h5>
-
+    <p>
+        <a href="/demo/">Войти как клиент</a>
+        <br>
+        <a href="/admin">Войти как администратор</a>
+    </p>
+</div>
 </body>
 </html>

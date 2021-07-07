@@ -3,9 +3,48 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Информация о клиенте</title>
+    <style>
+
+        body{
+            background-color:LightCyan;
+            text-align:center;
+        }
+
+        div{
+            color:Maroon;
+            background-color:DarkTurquoise;
+            border-style:groove;
+            border-radius:20px;
+            display:inline-block;
+            align:center;
+            padding:20px;
+            padding-top:1px;
+        }
+        A{
+            color:Maroon;
+        }
+        A:hover{
+            background-color:SkyBlue;
+        }
+
+        p{
+            text-align:left;
+        }
+        form{
+            text-align:left;
+        }
+        button:hover{
+            background-color:DarkTurquoise;
+        }
+
+    </style>
 </head>
 <body>
-<h1>Информация о клиенте</h1>
+<div>
+    <p><a href = "/index">На главную</a></p>
+<!--    <p><a href="#" onclick="self.close()">Назад</a></p>-->
+
+    <h1>Информация о клиенте</h1>
 <form action="#" th:action="@{/demo/updateReg/}" th:object="${clientData}" method="POST">
     <input type="hidden" name="id" th:value="${id}" th:field="*{id}">
     <h1>Проверьте регистрационные данные</h1>
@@ -36,7 +75,7 @@
         </tr>
         <tr>
             <td>
-                День рождения
+                День рождения в формате "ГГГГ-ММ-ДД"
             </td>
             <td>
                 <input type="text" name="birthDate" th:value="${birthDate}"  th:field="*{birthDate}">
@@ -69,5 +108,6 @@
     </table>
     <button name="submit">Сохранить</button>
 </form>
+</div>
 </body>
 </html>

@@ -1,33 +1,58 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Личный кабинет</title>
-	</head>
-	<body>
-		<h1>Личный кабинет</h1>
-			<table>
-<!--				<tr>-->
-<!--					<td>-->
-<!--						<a href="offers.html" th:href="@{/demo/offers/{id}(id=${id})}">Поданные заявки на кредиты</a>-->
-<!--					</td>-->
-<!--				</tr>-->
-				<tr>
-					<td>
-						<a href="myCredits.html" th:href="@{/demo/myCredits/{id}(id=${id})}">Поданные заявки на кредиты</a>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<a href="newOffer.html" th:href="@{/demo/newOffer/{id}(id=${id})}">Подать новую заявку на кредит</a>
-					</td>
-				</tr>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Личный кабинет</title>
+	<style>
 
-				<tr>
-					<td>
-						<a href="update.html" th:href="@{/demo/update/{id}(id=${id})}">Изменить персональные данные</a>
-					</td>
-				</tr>
-		</table>
-	</body>
+		body{
+			background-color:LightCyan;
+			text-align:center;
+		}
+
+		div{
+			color:Maroon;
+			background-color:DarkTurquoise;
+			border-style:groove;
+			border-radius:20px;
+			display:inline-block;
+			align:center;
+			padding:50px;
+			padding-top:1px;
+		}
+		A{
+			color:Maroon;
+		}
+		A:hover{
+			background-color:SkyBlue;
+		}
+
+		p{
+			text-align:left;
+		}
+		form{
+			text-align:left;
+		}
+		button:hover{
+			background-color:DarkTurquoise;
+		}
+
+
+
+	</style>
+</head>
+<body>
+<div>
+	<p><a href = "/index">На главную</a>
+	<h2>Личный кабинет</h2>
+	<p th:text="${name}"></p>
+
+	<p><a href="myCredits.html" th:href="@{/demo/myCredits/{id}(id=${id})}">Поданные заявки на кредиты</a>
+		<br>
+		<a href="newOffer.html" th:href="@{/demo/newOffer/{id}(id=${id})}">Подать новую заявку на кредит</a>
+		<br>
+		<a href="update.html" th:href="@{/demo/update/{id}(id=${id})}">Изменить персональные данные</a>
+	</p>
+</div>
+</body>
 </html>

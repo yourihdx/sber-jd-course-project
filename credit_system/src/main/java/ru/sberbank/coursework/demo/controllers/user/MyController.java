@@ -106,6 +106,7 @@ public class MyController {
         List<Client> clients = clientCrudRepository.findClientByLoginAndPasswordAndIsDeletedIsFalse(client.getLogin(), client.getPassword());
         if (clients.size() > 0) {
             map.addAttribute("id", clients.get(0).getId());
+            map.addAttribute("name", clients.get(0).getFullName());
             return "user/client";
         }
         map.addAttribute("message", "Клиент с такими регистрационными данными не найден.");

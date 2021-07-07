@@ -1,12 +1,56 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-<!--		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
-	    <title>Персональные предложения</title>
-	</head>
+<head>
+	<!--		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
+	<title>Персональные предложения</title>
+	<style>
 
-		<h1>Выбор кредита</h1>
-		<form>
+		body{
+			background-color:LightCyan;
+			text-align:center;
+		}
+
+		div{
+			color:Maroon;
+			background-color:DarkTurquoise;
+			border-style:groove;
+			border-radius:20px;
+			display:inline-block;
+			align:center;
+			padding:20px;
+			padding-top:1px;
+		}
+		A{
+			color:Maroon;
+		}
+		A:hover{
+			background-color:SkyBlue;
+		}
+
+		p{
+			text-align:left;
+		}
+		form{
+			text-align:left;
+		}
+		button:hover{
+			background-color:DarkTurquoise;
+		}
+
+		table {
+			border-collapse: collapse;
+			border: 2px solid grey;
+		}
+	</style>
+</head>
+<body>
+<div>
+	<p><a href = "/index">На главную</a></p>
+<!--	<p><a href="#" onclick="self.close()">Назад</a></p>-->
+
+
+	<h1>Выбор кредита</h1>
+	<form>
 		<table border="1">
 			<tr>
 				<td>Банк</td>
@@ -37,5 +81,6 @@
 			</tr>
 		</table>
 	</form>
-	</body>
+</div>
+</body>
 </html>
