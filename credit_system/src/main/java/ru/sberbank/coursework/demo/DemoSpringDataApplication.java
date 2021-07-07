@@ -5,9 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ru.sberbank.coursework.demo.pojo.Agreement;
-import ru.sberbank.coursework.demo.pojo.Client;
 import ru.sberbank.coursework.demo.repositories.AgreementCrudRepository;
-import ru.sberbank.coursework.demo.repositories.ClientCrudRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

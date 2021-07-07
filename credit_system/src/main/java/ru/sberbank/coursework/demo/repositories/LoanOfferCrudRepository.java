@@ -3,7 +3,6 @@ package ru.sberbank.coursework.demo.repositories;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.sberbank.coursework.demo.OfferForm;
 import ru.sberbank.coursework.demo.pojo.LoanOffer;
 
 import java.util.List;

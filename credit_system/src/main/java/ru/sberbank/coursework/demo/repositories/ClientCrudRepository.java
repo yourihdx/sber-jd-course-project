@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import ru.sberbank.coursework.demo.pojo.Client;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ClientCrudRepository extends CrudRepository<Client, Integer> {

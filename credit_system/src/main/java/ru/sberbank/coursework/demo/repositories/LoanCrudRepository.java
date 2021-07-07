@@ -4,10 +4,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.sberbank.coursework.demo.pojo.Loan;
-import ru.sberbank.coursework.demo.pojo.LoanList;
-import ru.sberbank.coursework.demo.pojo.LoanOffer;
 
-import java.math.BigDecimal;
 import java.util.List;
 
     @Repository

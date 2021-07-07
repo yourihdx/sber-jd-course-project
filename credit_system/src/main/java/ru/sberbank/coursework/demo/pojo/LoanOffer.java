@@ -1,7 +1,5 @@
 package ru.sberbank.coursework.demo.pojo;
 
-import liquibase.pro.packaged.S;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 

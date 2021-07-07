@@ -1,7 +1,5 @@
 package ru.sberbank.coursework.demo.pojo;
 
-import java.math.BigDecimal;
-
 public interface LoanList {
     String getBankName();
     int getBankId();

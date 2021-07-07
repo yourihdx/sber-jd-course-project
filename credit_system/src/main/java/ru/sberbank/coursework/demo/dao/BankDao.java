@@ -33,7 +33,7 @@ public class BankDao {
         }
     }
 
-    public List getAllBanks(){
+    public List getAllBanks() {
         Transaction transaction = null;
         try (Session session = this.sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -50,7 +50,7 @@ public class BankDao {
         }
     }
 
-    public Bank getBank(int banktId){
+    public Bank getBank(int banktId) {
         Transaction transaction = null;
         try (Session session = this.sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -67,7 +67,7 @@ public class BankDao {
         }
     }
 
-    public boolean updateBank(Bank bank){
+    public boolean updateBank(Bank bank) {
         Transaction transaction = null;
         try (Session session = this.sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -84,7 +84,7 @@ public class BankDao {
         }
     }
 
-    public boolean deleteBank(int bankId){
+    public boolean deleteBank(int bankId) {
         Transaction transaction = null;
         try (Session session = this.sessionFactory.openSession()) {
             transaction = session.beginTransaction();

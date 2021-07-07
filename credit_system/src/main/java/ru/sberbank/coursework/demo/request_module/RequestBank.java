@@ -14,9 +14,7 @@ import ru.sberbank.coursework.demo.pojo.*;
 public class RequestBank {
 
     //Обратные адреса для получения ответа
-    private String POST_URL1 = "http://localhost:8080/json_in";
-    private String KAFKA_ADDR = "credit_sender";
-    private static Boolean restchecked = false;
+    private final String KAFKA_ADDR = "credit_sender";
 
     private final RestFormSender restFormSender;
 
@@ -40,11 +38,7 @@ public class RequestBank {
                              Loan loanPojo, Bank bank, Payment loanType) {
         System.out.println(loanOffer.getId());
         String addr_str;
-        if (restchecked) {
-            addr_str = POST_URL1;
-        } else {
-            addr_str = KAFKA_ADDR;
-        }
+        addr_str = KAFKA_ADDR;
 
         ru.sberbank.coursework.demo.data.Client client = ru.sberbank.coursework.demo.data.Client.
                 builder().
@@ -87,10 +81,7 @@ public class RequestBank {
             logger.error(String.format("CS-RequestBank - ERROR: %s", e.toString()));
         }
         System.out.println(json_string);
-        if (restchecked) {
-            restFormSender.sendOrder(loan_request);
-        } else {
-            kafkaSender.sendOrder(loan_request.getId().toString(), json_string);
-        }
+        kafkaSender.sendOrder(loan_request.getId().toString(), json_string);
+
     }
 }

@@ -1,7 +1,7 @@
 package ru.sberbank.coursework.demo.data;
 
 
-import java.util.*;
+import java.util.ArrayDeque;
 
 public class AnswerList {
     private static AnswerList instance = new AnswerList();

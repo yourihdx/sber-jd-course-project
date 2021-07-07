@@ -1,7 +1,6 @@
 package ru.sberbank.coursework.demo.pojo;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "bank")

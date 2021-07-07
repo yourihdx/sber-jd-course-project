@@ -5,7 +5,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import ru.sberbank.coursework.demo.dao.ClientDao;
 import ru.sberbank.coursework.demo.domain.Client;
 
@@ -24,7 +26,7 @@ public class AdminClientController {
     }
 
     @PostMapping(value = "/clients")
-    public String createClient(Model model,Client client) {
+    public String createClient(Model model, Client client) {
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
         ClientDao clientDao = new ClientDao(sessionFactory);
         clientDao.create(client);
@@ -35,8 +37,8 @@ public class AdminClientController {
 
     @PostMapping("/clients/{id}")
     public String editClient(Model model,
-            @PathVariable("id") int id,
-            Client client) {
+                             @PathVariable("id") int id,
+                             Client client) {
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
         ClientDao clientDao = new ClientDao(sessionFactory);
         model.addAttribute("id", id);
@@ -63,7 +65,7 @@ public class AdminClientController {
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
         ClientDao clientDao = new ClientDao(sessionFactory);
         Client client = clientDao.getClient(ids);
-        model.addAttribute("client",client);
+        model.addAttribute("client", client);
         return "admin/client";
     }
 }

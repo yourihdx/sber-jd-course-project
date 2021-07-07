@@ -1,6 +1,5 @@
 package ru.sberbank.coursework.demo.dao;
 
-import com.google.common.eventbus.DeadEvent;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -33,7 +32,8 @@ public class ClientDao {
             return false;
         }
     }
-    public List<Client> getAllClients(){
+
+    public List<Client> getAllClients() {
         Transaction transaction = null;
         try (Session session = this.sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -50,7 +50,7 @@ public class ClientDao {
         }
     }
 
-    public Client getClient(int clientId){
+    public Client getClient(int clientId) {
         Transaction transaction = null;
         try (Session session = this.sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -67,7 +67,7 @@ public class ClientDao {
         }
     }
 
-    public boolean updateClient(Client client){
+    public boolean updateClient(Client client) {
         Transaction transaction = null;
         try (Session session = this.sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -84,7 +84,7 @@ public class ClientDao {
         }
     }
 
-    public boolean deleteClient(int clientId){
+    public boolean deleteClient(int clientId) {
         Transaction transaction = null;
         try (Session session = this.sessionFactory.openSession()) {
             transaction = session.beginTransaction();
