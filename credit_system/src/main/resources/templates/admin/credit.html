@@ -3,9 +3,48 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Кредит</title>
-</head>
+    <style>
 
+        body{
+            background-color:LightCyan;
+            text-align:center;
+        }
+
+        div{
+            color:Maroon;
+            background-color:DarkTurquoise;
+            border-style:groove;
+            border-radius:20px;
+            display:inline-block;
+            align:center;
+            padding:20px;
+            padding-top:1px;
+        }
+        A{
+            color:Maroon;
+        }
+        A:hover{
+            background-color:SkyBlue;
+        }
+
+        p{
+            text-align:left;
+        }
+        form{
+            text-align:left;
+        }
+        button:hover{
+            background-color:DarkTurquoise;
+        }
+        table {
+            border-collapse: collapse;
+            border: 2px solid grey;
+        }
+    </style>
+</head>
 <body>
+<div>
+    <p><a href = "/index">На главную</a></p>
 <h1>Кредит: <span th:text="${credit.id}"></span></h1>
 <!--Thymeleaf modified page-->
 <table border="1">
@@ -52,6 +91,6 @@
     <input type="submit" value="Сохранить">
 
 </form>
-
+</div>
 </body>
 </html>

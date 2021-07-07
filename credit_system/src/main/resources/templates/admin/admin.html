@@ -3,9 +3,48 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Админ</title>
+    <style>
+
+        body{
+            background-color:LightCyan;
+            text-align:center;
+        }
+
+        div{
+            color:Maroon;
+            background-color:DarkTurquoise;
+            border-style:groove;
+            border-radius:20px;
+            display:inline-block;
+            align:center;
+            padding:20px;
+            padding-top:1px;
+        }
+        A{
+            color:Maroon;
+        }
+        A:hover{
+            background-color:SkyBlue;
+        }
+
+        p{
+            text-align:left;
+        }
+        form{
+            text-align:left;
+        }
+        button:hover{
+            background-color:DarkTurquoise;
+        }
+        table {
+            border-collapse: collapse;
+            border: 2px solid grey;
+        }
+    </style>
 </head>
-<!--Thymeleaf modified page-->
 <body>
+<div>
+    <p><a href = "/index">На главную</a></p>
 <h1>Выберите таблицу</h1>
 
 <h3>
@@ -13,5 +52,6 @@
 <a href="/credits">Кредиты</a><br><br>
 <a href="/clients">Клиенты</a><br><br>
 </h3>
+</div>
 </body>
 </html>
