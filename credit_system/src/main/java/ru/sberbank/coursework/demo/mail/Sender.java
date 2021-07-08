@@ -45,6 +45,7 @@ public class Sender {
             Transport.send(message);
             System.out.println("Massage send");
         } catch (MessagingException e) {
+            System.out.println(e.toString());
             e.printStackTrace();
         }
     }
