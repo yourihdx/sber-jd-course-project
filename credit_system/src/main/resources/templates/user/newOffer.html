@@ -3,9 +3,52 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Заказ нового кредита</title>
+    <style>
+
+        body{
+            background-color:LightCyan;
+            text-align:center;
+        }
+
+        div{
+            color:Maroon;
+            background-color:DarkTurquoise;
+            border-style:groove;
+            border-radius:20px;
+            display:inline-block;
+            align:center;
+            padding:20px;
+            padding-top:1px;
+        }
+        A{
+            color:Maroon;
+        }
+        A:hover{
+            background-color:SkyBlue;
+        }
+
+        p{
+            text-align:left;
+        }
+        form{
+            text-align:left;
+        }
+        button:hover{
+            background-color:DarkTurquoise;
+        }
+        table {
+            border-collapse: collapse;
+            border: 2px solid grey;
+        }
+    </style>
 </head>
 <body>
-<form action="#" th:action="@{/demo/saveOffer/{id}(id=${id})}" th:object="${creditData}" method="POST">
+<div>
+    <p><a href = "/index">На главную</a></p>
+<!--    <p><a href="#" onclick="self.close()">Назад</a></p>-->
+
+
+    <form action="#" th:action="@{/demo/saveOffer/{id}(id=${id})}" th:object="${creditData}" method="POST">
     <h1>Введите данные по кредиту</h1>
     <table border="1">
 
@@ -39,5 +82,6 @@
 <!--    <input type="hidden" name="id" th:value="${id}"/>-->
     <button name="submit">Сохранить</button>
 </form>
+</div>
 </body>
 </html>

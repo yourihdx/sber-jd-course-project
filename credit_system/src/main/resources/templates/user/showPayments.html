@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Show payment schedule</title>
+	<style>
+
+		body{
+			background-color:LightCyan;
+			text-align:center;
+		}
+
+		div{
+			color:Maroon;
+			background-color:DarkTurquoise;
+			border-style:groove;
+			border-radius:20px;
+			display:inline-block;
+			align:center;
+			padding:20px;
+			padding-top:1px;
+		}
+		A{
+			color:Maroon;
+		}
+		A:hover{
+			background-color:SkyBlue;
+		}
+
+		p{
+			text-align:left;
+		}
+		form{
+			text-align:left;
+		}
+		button:hover{
+			background-color:DarkTurquoise;
+		}
+
+		table {
+			border-collapse: collapse;
+			border: 2px solid grey;
+		}
+	</style>
+
+</head>
+<body>
+<div>
+        <H3 style="text-align: center">График платежей</H3>
+<!--        <form method="post" th:action="@{/demo/file/}" target="_blank" th:object="${schedule}">-->
+<!--            <input type = "submit" value="Скачать в формате PDF" />-->
+<!--        </form>-->
+
+        <a href="#" th:href="@{/demo/file/{id}(id=${creditId})}" target="_blank">
+            Скачать в формате PDF</a>
+
+        <table th:object="${schedule}">
+            <tr>
+                <td>Сумма</td>
+                <td><span th:text = "${schedule.getCreditAmount()}"></span></td>
+            </tr>
+            <tr>
+                <td>Срок</td>
+                <td><span th:text = "${schedule.getCreditTerm()}"></span> месяцев</td>
+            </tr>
+            <tr>
+                <td>Процентная ставка</td>
+                <td th:text = "${#numbers.formatDecimal(schedule.getPercentRate(),1,2)}"></td>
+            </tr>
+            <tr>
+                <td>Вид платежей</td>
+                <td><span th:text = "${schedule.isAnnuityPayment()} ? 'Аннуитетный' : 'Дифференцированный'"></span></td>
+            </tr>
+            <tr>
+                <td>Переплата по процентам</td>
+                <td><span th:text = "${schedule.calculateTotalPercent()}"></span></td>
+            </tr>
+        </table>
+
+        <table style="border-width: 2px; border-style: solid">
+            <tr>
+                <td style = "width: 300px">Дата платежа</td>
+                <td style = "width: 300px">Основной долг</td>
+                <td style = "width: 300px">Проценты</td>
+                <td style = "width: 300px">Сумма платежа</td>
+                <td style = "width: 300px">Остаток</td>
+            </tr>
+
+        </table>
+
+        <table>
+            <tr th:each = "pay:${schedule.getPayments()}">
+                <td style = "width: 300px">
+                    <span th:text = "${pay.getPaymentDate()}"></span>
+
+                </td>
+                <td style = "width: 300px"><span th:text = "${pay.getPrincipal()}"></span></td>
+                <td style = "width: 300px"><span th:text = "${pay.getPercent()}"></span></td>
+                <td style = "width: 300px"><span th:text = "${pay.getPayment()}"></span></td>
+                <td style = "width: 300px"><span th:text = "${pay.getBalance()}"></span></td>
+            </tr>
+
+        </table>
+        <a href="#" onclick="self.close()">Закрыть</a>
+</div>
+</body>
+</html>

@@ -1,14 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Вход в личный кабинет</title>
-	</head>
-	<body>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Вход в личный кабинет</title>
+	<style>
 
-		<h1>Вход в личный кабинет</h1>
-		<span th:text="${message}"></span>
-		<form action="#" th:action="@{/demo/login/}" th:object="${clientData}" method="POST">
+		body{
+			background-color:LightCyan;
+			text-align:center;
+		}
+
+		div{
+			color:Maroon;
+			background-color:DarkTurquoise;
+			border-style:groove;
+			border-radius:20px;
+			display:inline-block;
+			align:center;
+			padding:20px;
+			padding-top:1px;
+		}
+		A{
+			color:Maroon;
+		}
+		A:hover{
+			background-color:SkyBlue;
+		}
+
+		p{
+			text-align:left;
+		}
+		form{
+			text-align:left;
+		}
+		button:hover{
+			background-color:DarkTurquoise;
+		}
+
+	</style>
+</head>
+<body>
+<div>
+	<p><a href = "/index">На главную</a>
+	</p>
+	<h2>Вход в личный кабинет</h2>
+	<span th:text="${message}"></span>
+	<form action="#" th:action="@{/demo/login/}" th:object="${clientData}" method="POST">
 		<table>
 			<tr>
 				<td>
@@ -29,9 +66,13 @@
 		</table>
 		<button type="submit" value="enter">Войти</button>
 	</form>
+
+	<p>
 	<form action="/demo/reg/" method="GET">
+		Не являетесь клиентом?
 		<button type="submit" value="register">Зарегистрироваться</button>
 	</form>
-
-	</body>
+	</p>
+</div>
+</body>
 </html>

@@ -5,6 +5,7 @@
 	<modules>
 		<module>bank_answer</module>
 		<module>credit_system</module>
+		<module>schedule</module>
 	</modules>
 	<packaging>pom</packaging>
 	<parent>
