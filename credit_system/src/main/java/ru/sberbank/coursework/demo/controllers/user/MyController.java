@@ -3,30 +3,52 @@ package ru.sberbank.coursework.demo.controllers.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.codec.Base64;
+import liquibase.pro.packaged.A;
+import lombok.var;
+import org.codehaus.plexus.util.IOUtil;
+import org.hibernate.internal.build.AllowPrintStacktrace;
+import org.omg.CORBA.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ru.sberbank.coursework.demo.data.ClientData;
-import ru.sberbank.coursework.demo.data.CreditsList;
-import ru.sberbank.coursework.demo.data.OfferForm;
-import ru.sberbank.coursework.demo.data.AnswerData;
-import ru.sberbank.coursework.demo.data.AnswerList;
-import ru.sberbank.coursework.demo.data.Loan_Offer;
-import ru.sberbank.coursework.demo.data.Loan_request;
-import ru.sberbank.coursework.demo.mail.Send;
-import ru.sberbank.coursework.demo.pojo.*;
-import ru.sberbank.coursework.demo.repositories.*;
-import ru.sberbank.coursework.demo.request_module.KafkaReciever;
+import ru.sberbank.coursework.demo.*;
+import ru.sberbank.coursework.demo.data.MonthPay;
+import ru.sberbank.coursework.demo.data.Schedule;
+import ru.sberbank.coursework.demo.data.*;
+import ru.sberbank.coursework.demo.pojo.Client;
+import ru.sberbank.coursework.demo.pojo.Loan;
 import ru.sberbank.coursework.demo.request_module.KafkaSender;
 import ru.sberbank.coursework.demo.request_module.RestFormSender;
 
+import ru.sberbank.coursework.demo.request_module.RequestBank;
+import ru.sberbank.coursework.demo.pojo.*;
+import ru.sberbank.coursework.demo.repositories.*;
+import ru.sberbank.coursework.demo.service.RestService;
+import sun.misc.IOUtils;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static com.itextpdf.text.FontFactory.getFont;
+import static com.itextpdf.text.pdf.BidiOrder.B;
 
 @Controller
 @RequestMapping(value = "/demo")
@@ -49,14 +71,17 @@ public class MyController {
     BankCrudRepository bankCrudRepository;
     @Autowired
     LoanTypeCrudRepository loanTypeCrudRepository;
+    @Autowired
+    RestService restService;
 
+    private String POST_URL1 = "http://localhost:8080/json_in";
     private String KAFKA_ADDR = "credit_sender";
+    private static Boolean restchecked = false;
+
 
     private final RestFormSender restFormSender;
 
     private final KafkaSender kafkaSender;
-
-    private final Logger logger = LoggerFactory.getLogger(MyController.class);
 
     @Autowired
     MyController(RestFormSender restFormSender, KafkaSender kafkaSender) {
@@ -87,8 +112,8 @@ public class MyController {
         // Get client Data from base by id
         // Предоставление формы для изменения регистрационной информации
         Client pojoClient = clientCrudRepository.findClientByIdAndIsDeletedIsFalse((int) clientId);
-        ClientData clientData = new ClientData(pojoClient.getLogin(), pojoClient.getPassword(), pojoClient.getId(),
-                pojoClient.getFullName(), pojoClient.getBirthDate().toString(), pojoClient.getEMail(),
+        ClientData clientData = new ClientData(pojoClient.getLogin(), pojoClient.getPassword(),
+                pojoClient.getId(), pojoClient.getFullName(), pojoClient.getBirthDate().toString(), pojoClient.getEMail(),
                 pojoClient.getPhoneNumber(), pojoClient.getPassportSeriesNum());
         map.addAttribute("clientData", clientData);
         return "user/update";
@@ -130,7 +155,6 @@ public class MyController {
         }
         Client clients = clientCrudRepository.save(pojoClient);
         map.addAttribute("id", clients.getId());
-        Send.SendEmail(clients.getEMail(), "Добро пожаловать на портал агрегации кредитных предложений", "Ваш логин: " + clients.getLogin() + " Ваш пароль: " + clients.getPassword());
         return "user/client";
     }
 
@@ -196,13 +220,139 @@ public class MyController {
         return "user/newOffer";
     }
 
+    @GetMapping(value="/file/{id}")
+    public ResponseEntity showFile(@PathVariable("id") long creditId, HttpServletResponse res) {
+        Schedule schedule = getSchedule((int)creditId);
+
+        Document document = new Document();
+        res.setContentType("application/pdf");
+
+        try {
+            PdfWriter.getInstance(document, res.getOutputStream());
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        Boolean isLatin = false;
+        document.open();
+        Font font = null;
+        try {
+            String str1 = "C:\\Windows\\Fonts\\CALIBRI.TTF";
+            String str2 = "CALIBRI.TTF";
+            Path path1 = Paths.get(str1);
+            Path path2 = Paths.get(str2);
+
+            if (Files.exists(path1)) {
+                BaseFont bf = BaseFont.createFont(str1, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                font = new Font(bf);
+            } else if (Files.exists(path2)) {
+                BaseFont bf = BaseFont.createFont(str2, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                font = new Font(bf);
+            } else {
+                font = FontFactory.getFont(FontFactory.HELVETICA);
+                isLatin = true;
+            }
+            font.setSize(16);
+
+            Paragraph title = new Paragraph();
+            Chunk chunk = new Chunk(isLatin?"Payment Schedule":"График платежей");
+            chunk.setFont(font);
+            title.add(chunk);
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.setFont(font);
+
+            document.add(title);
+            font.setSize(12);
+
+//            Paragraph ph = new Paragraph(new Chunk(isLatin?"Loan Amount ":"Сумма " + schedule.getCreditAmount().toString(), font));
+            Paragraph ph = new Paragraph(new Chunk(isLatin?"Loan Amount ":"Сумма ", font));
+            ph.add(new Chunk(schedule.getCreditAmount().toString(), font));
+            document.add(ph);
+            ph = new Paragraph(new Chunk(isLatin?"Period ":"Срок ", font));
+            ph.add(new Chunk(String.valueOf(schedule.getCreditTerm()), font));
+            ph.add(new Chunk(isLatin?" months":" месяцев", font));
+            document.add(ph);
+            ph = new Paragraph(new Chunk(isLatin?"Percent Rate ":"Процентная ставка ", font));
+            ph.add(new Chunk(String.format("%5.2f",schedule.getPercentRate()), font));
+            document.add(ph);
+            if (schedule.isAnnuityPayment()) {
+                ph = new Paragraph(new Chunk(isLatin?"Type of payment, annuity":"Вид платежей, аннуитетный ", font));
+            } else {
+                ph = new Paragraph(new Chunk(isLatin?"Type of payment, differentiated":"Вид платежей, дифференцированный ", font));
+
+            }
+            document.add(ph);
+            ph = new Paragraph(new Chunk(isLatin?"Overpayment ":"Переплата по процентам ", font));
+            ph.add(new Chunk(schedule.calculateTotalPercent().toString(), font));
+            document.add(ph);
+            ph = new Paragraph(" ");
+            document.add(ph);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        PdfPTable table = new PdfPTable(5);
+        addTableHeader(table, font, isLatin);
+        for(MonthPay payment : schedule.getPayments()){
+
+            table.addCell(payment.getPaymentDate());
+            table.addCell(payment.getPrincipal());
+            table.addCell(payment.getPercent());
+            table.addCell(payment.getPayment());
+            table.addCell(payment.getBalance());
+        }
+        try {
+            document.add(table);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        document.close();
+        String headerStr = "inline";
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                headerStr).build();
+    }
+
+    private void addTableHeader(PdfPTable table, Font font, Boolean islatin) {
+        String[] headerStr = null;
+        if (islatin) {
+            headerStr = new String[]{"Payment Date", "Principal Amount", "Percent Amount",
+                    "Total Amount", "Balance"};
+        } else {
+            headerStr = new String[]{"Дата платежа", "Основной долг", "Проценты",
+                    "Сумма платежа", "Остаток"};
+        }
+        Stream.of(headerStr)
+                .forEach(columnTitle -> {
+                    PdfPCell header = new PdfPCell();
+                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                    header.setBorderWidth(2);
+                    header.addElement(new Chunk(columnTitle, font));
+                    table.addCell(header);
+                });
+    }
+
+    private Schedule getSchedule(int creditId) {
+        Map<String, String> param = new HashMap<>();
+        LoanOffer loan = loanOfferJpaRepository.getById((int)creditId);
+
+        param.put("creditAmount", loan.getCreditSum().toString());
+        param.put("percentRate", String.valueOf(loan.getPercent()*100));
+        param.put("creditTerm", String.valueOf(loan.getPeriod()));
+        param.put("annuityPayment", (loan.getProductTypeId()==1)?"true":"false");
+        Schedule schedule = restService.getApi(param);
+
+        return schedule;
+    }
+
     @GetMapping(value = "/showPayment/{id}")
     public String showPayment(@PathVariable("id") long creditId, ModelMap map) {
         // метод для отрисовки графика платежей. Заглушка.
         // Ссылается на такую же фейковую страницу.
+        Schedule schedule = getSchedule((int)creditId);
+        map.addAttribute("schedule", schedule);
         map.addAttribute("creditId", creditId);
-        map.addAttribute("creditData", new OfferForm());
-        return "user/paymentList";
+//        map.addAttribute("creditData", new OfferForm());
+
+        return "user/showPayments";
     }
 
     @PostMapping("/saveOffer/{id}")
@@ -264,8 +414,12 @@ public class MyController {
 
     private void sendRequest(LoanOffer loanOffer, Client clientPojo,
                              Loan loanPojo, Bank bank, Payment loanType) {
-        String addr_str = KAFKA_ADDR;
-
+        String addr_str;
+        if (restchecked) {
+            addr_str = POST_URL1;
+        } else {
+            addr_str = KAFKA_ADDR;
+        }
 
         ru.sberbank.coursework.demo.data.Client client = ru.sberbank.coursework.demo.data.Client.
                 builder().
@@ -305,9 +459,14 @@ public class MyController {
         try {
             json_string = mapper.writeValueAsString(loan_request);
         } catch (JsonProcessingException e) {
-            logger.error(String.format("CS-Controller - ERROR: %s", e.toString()));
+//                logger.error(String.format("BF-Controller - ERROR: %s", e.toString()));
+            System.out.println(e.toString());
         }
-        kafkaSender.sendOrder(loan_request.getId().toString(), json_string);
+        if (restchecked) {
+            restFormSender.sendOrder(loan_request);
+        } else {
+            kafkaSender.sendOrder(loan_request.getId().toString(), json_string);
+        }
     }
 
 

@@ -3,10 +3,50 @@
     <head>
 <!--		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
 	    <title>Персональные предложения</title>
-	</head>
+	<style>
 
+		body{
+			background-color:LightCyan;
+			text-align:center;
+		}
+
+		div{
+			color:Maroon;
+			background-color:DarkTurquoise;
+			border-style:groove;
+			border-radius:20px;
+			display:inline-block;
+			align:center;
+			padding:20px;
+			padding-top:1px;
+		}
+		A{
+			color:Maroon;
+		}
+		A:hover{
+			background-color:SkyBlue;
+		}
+
+		p{
+			text-align:left;
+		}
+		form{
+			text-align:left;
+		}
+		button:hover{
+			background-color:DarkTurquoise;
+		}
+
+		table {
+			border-collapse: collapse;
+			border: 2px solid grey;
+		}
+	</style>
+	</head>
+	<body>
+	<div>
 		<h1>Выбор кредита</h1>
-		<form>
+
 		<table border="1">
 			<tr>
 				<td>Банк</td>
@@ -28,14 +68,24 @@
 				<td th:text="${credit.status}"></td>
 				<td>
 					<input type="hidden" th:value="${credit.id}" />
-					<a href="#" th:href="@{/demo/showPayment/{id}(id=${credit.id})}"  th:if="${credit.statusId} == 1" target="_blank">Посмотреть</a>
+<!--					<a href="#" th:href="@{/demo/showPayment/{id}(id=${credit.id})}"  th:if="${credit.statusId} == 1" target="_blank">Посмотреть</a>-->
+					<th:block th:if="${credit.statusId} == 1">
 
-				</td>
-				<td>
-					<a href="#"  th:href="@{/demo/checkCredit/{id}/{creditId}(id=${id},creditId=${credit.id})}"  th:if="${credit.statusId} == 1">Оформить кредит</a>
+											<form method="get" th:action="@{/demo/showPayment/{id}(id=${credit.id})}" target="_blank">
+											<input type = "submit" value="Посмотреть" />
+                                                                     </form>
+                                                                     </th:block>
+                                                                 </td>
+                                                                 <td>
+                                                                     <th:block th:if="${credit.statusId} == 1">
+                                                                         <form th:action="@{/demo/checkCredit/{id}/{creditId}(id=${id},creditId=${credit.id})}" method="get">
+                                                                             <input type="submit" value="Оформить кредит">
+                                                                         </form>
+                                                                     </th:block>
+                                                 <!--					<a href="#"  th:href="@{/demo/checkCredit/{id}/{creditId}(id=${id},creditId=${credit.id})}"  th:if="${credit.statusId} == 1">Оформить кредит</a>-->
 				</td>
 			</tr>
 		</table>
-	</form>
+	</div>
 	</body>
 </html>
