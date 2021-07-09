@@ -42,6 +42,9 @@ public class AnswerLogic {
 
         private String id;
 
+        private double mim_percent_rate;
+
+        private double max_percent_rate;
 
         /**
          * Основной метод генерации ответа.
@@ -61,8 +64,10 @@ public class AnswerLogic {
             }
             int res = Math.toIntExact(Math.round(Math.random()));
             String comment = "";
+            double percent_rate = 0;
             if (res == 1) {
                 comment = COMMENTS[0];
+                percent_rate = (Math.ceil((mim_percent_rate + Math.random() * (max_percent_rate - mim_percent_rate)) * 10)) / 10;
             } else {
                 Integer rnd = (int) (Math.random() * 3 + 0.1);
                 comment = COMMENTS[rnd];
@@ -70,7 +75,8 @@ public class AnswerLogic {
             answerList.getRec(id).setStatus(res);
             answerList.getRec(id).setComment(comment);
             answerList.getRec(id).setDateEnd(new Date());
-            AnswerData answerData = new AnswerData(id, res, comment);
+            answerList.getRec(id).setPercent_rate(percent_rate);
+            AnswerData answerData = new AnswerData(id, res, percent_rate, comment);
             if (answerList.getRec(id).getSender().equals("REST")) {
                 restBankAnswerSender.sendOrder(answerList.getRec(id).getLoan_request().getSender_addr(), answerData);
             }
@@ -97,12 +103,12 @@ public class AnswerLogic {
         if (Objects.nonNull(loan_request)) {
             if (Objects.nonNull(answerList.getRec(loan_request.getId()))) {
                 logger.info(String.format("AnswerLogic - message: %s", "запрос с ID=" + loan_request.getId() + " уже  был"));
-                AnswerData answerData = new AnswerData(loan_request.getId(), 2, COMMENTS[4]);
+                AnswerData answerData = new AnswerData(loan_request.getId(), 2, 0, COMMENTS[4]);
                 if (sender.equals("REST")) {
-                    restBankAnswerSender.sendOrder(loan_request.getSender_addr(),answerData);
+                    restBankAnswerSender.sendOrder(loan_request.getSender_addr(), answerData);
                 }
                 if (sender.equals("KAFKA")) {
-                    kafkaAnswerSender.sendOrder(loan_request.getSender_addr(),answerData.getId(),answerData);
+                    kafkaAnswerSender.sendOrder(loan_request.getSender_addr(), answerData.getId(), answerData);
                 }
             } else {
 
@@ -117,6 +123,8 @@ public class AnswerLogic {
                 answerList.add(loan_answer);
                 Answers answers = new Answers();
                 answers.setId(loan_request.getId());
+                answers.setMim_percent_rate(loan_request.getLoan().getMin_percent_rate());
+                answers.setMax_percent_rate(loan_request.getLoan().getMax_percent_rate());
                 Thread answer = new Thread(answers);
                 answer.start();
             }

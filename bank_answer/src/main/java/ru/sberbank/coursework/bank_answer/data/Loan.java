@@ -11,7 +11,7 @@ import lombok.*;
 public class Loan {
     private double max_sum;
     private int max_period;
-    private double percent_rate;
+    private double min_percent_rate;
+    private double max_percent_rate;
     private String product_type;
-
 }

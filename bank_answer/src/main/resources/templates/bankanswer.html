@@ -23,7 +23,8 @@
     </p>
     <p th:case="1" class="yes_answer" <div th:utext="'ID запроса:'+${rec.getLoan_request().getId()}
     +' Банк: '+${rec.getLoan_request().getBank()}
-    +' Статус: Ответ положительный'">
+    +' Статус: Ответ положительный'
+    +' Одобрена ставка: '+${rec.getPercent_rate()}">
     </p>
     <p th:case="2" class="weit_answer" th:utext="'ID запроса:'+${rec.getLoan_request().getId()}
     +' Банк: '+${rec.getLoan_request().getBank()}

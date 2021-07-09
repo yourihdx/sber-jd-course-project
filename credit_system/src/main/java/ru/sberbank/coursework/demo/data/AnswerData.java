@@ -10,5 +10,6 @@ import lombok.*;
 public class AnswerData {
     private String id;
     private int res;
+    private double percent_rate;
     private String comment;
 }
