@@ -1,6 +1,7 @@
 version: '2'
 services:
   zookeeper:
+    container_name: zookeeper
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
@@ -23,8 +24,8 @@ services:
       POSTGRES_DB: creditsys
     ports:
       - "5432:5432"
-#  liquibase:
-#    image: liquibase/liquibase
+  #  liquibase:
+  #    image: liquibase/liquibase
   bank_answer:
     container_name: bank_answer
     build: ./bank_answer
@@ -33,9 +34,10 @@ services:
       - "8086:8086"
     command: java -jar ./app/bank_answer.jar
   credit_system:
-    container_name: credit_system    
+    container_name: credit_system
     build: ./credit_system
     restart: always
     ports:
       - "8085:8085"
+      - "465:465"
     command: java -jar ./app/credit_system.jar

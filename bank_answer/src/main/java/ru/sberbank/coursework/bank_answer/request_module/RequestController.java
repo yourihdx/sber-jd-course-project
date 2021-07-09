@@ -93,7 +93,8 @@ public class RequestController {
                     max_period(60).
                     max_sum(10000000).
                     product_type("ann").
-                    percent_rate(5.5).
+                    min_percent_rate(5.5).
+                    max_percent_rate(7.0).
                     build();
 
             Loan_Offer loan_offer = Loan_Offer.

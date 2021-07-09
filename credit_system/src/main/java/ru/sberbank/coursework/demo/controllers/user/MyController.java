@@ -76,8 +76,6 @@ public class MyController {
 
     private String POST_URL1 = "http://localhost:8080/json_in";
     private String KAFKA_ADDR = "credit_sender";
-    private static Boolean restchecked = false;
-
 
     private final RestFormSender restFormSender;
 
@@ -220,9 +218,9 @@ public class MyController {
         return "user/newOffer";
     }
 
-    @GetMapping(value="/file/{id}")
+    @GetMapping(value = "/file/{id}")
     public ResponseEntity showFile(@PathVariable("id") long creditId, HttpServletResponse res) {
-        Schedule schedule = getSchedule((int)creditId);
+        Schedule schedule = getSchedule((int) creditId);
 
         Document document = new Document();
         res.setContentType("application/pdf");
@@ -254,7 +252,7 @@ public class MyController {
             font.setSize(16);
 
             Paragraph title = new Paragraph();
-            Chunk chunk = new Chunk(isLatin?"Payment Schedule":"График платежей");
+            Chunk chunk = new Chunk(isLatin ? "Payment Schedule" : "График платежей");
             chunk.setFont(font);
             title.add(chunk);
             title.setAlignment(Element.ALIGN_CENTER);
@@ -264,24 +262,24 @@ public class MyController {
             font.setSize(12);
 
 //            Paragraph ph = new Paragraph(new Chunk(isLatin?"Loan Amount ":"Сумма " + schedule.getCreditAmount().toString(), font));
-            Paragraph ph = new Paragraph(new Chunk(isLatin?"Loan Amount ":"Сумма ", font));
+            Paragraph ph = new Paragraph(new Chunk(isLatin ? "Loan Amount " : "Сумма ", font));
             ph.add(new Chunk(schedule.getCreditAmount().toString(), font));
             document.add(ph);
-            ph = new Paragraph(new Chunk(isLatin?"Period ":"Срок ", font));
+            ph = new Paragraph(new Chunk(isLatin ? "Period " : "Срок ", font));
             ph.add(new Chunk(String.valueOf(schedule.getCreditTerm()), font));
-            ph.add(new Chunk(isLatin?" months":" месяцев", font));
+            ph.add(new Chunk(isLatin ? " months" : " месяцев", font));
             document.add(ph);
-            ph = new Paragraph(new Chunk(isLatin?"Percent Rate ":"Процентная ставка ", font));
-            ph.add(new Chunk(String.format("%5.2f",schedule.getPercentRate()), font));
+            ph = new Paragraph(new Chunk(isLatin ? "Percent Rate " : "Процентная ставка ", font));
+            ph.add(new Chunk(String.format("%5.2f", schedule.getPercentRate()), font));
             document.add(ph);
             if (schedule.isAnnuityPayment()) {
-                ph = new Paragraph(new Chunk(isLatin?"Type of payment, annuity":"Вид платежей, аннуитетный ", font));
+                ph = new Paragraph(new Chunk(isLatin ? "Type of payment, annuity" : "Вид платежей, аннуитетный ", font));
             } else {
-                ph = new Paragraph(new Chunk(isLatin?"Type of payment, differentiated":"Вид платежей, дифференцированный ", font));
+                ph = new Paragraph(new Chunk(isLatin ? "Type of payment, differentiated" : "Вид платежей, дифференцированный ", font));
 
             }
             document.add(ph);
-            ph = new Paragraph(new Chunk(isLatin?"Overpayment ":"Переплата по процентам ", font));
+            ph = new Paragraph(new Chunk(isLatin ? "Overpayment " : "Переплата по процентам ", font));
             ph.add(new Chunk(schedule.calculateTotalPercent().toString(), font));
             document.add(ph);
             ph = new Paragraph(" ");
@@ -292,7 +290,7 @@ public class MyController {
 
         PdfPTable table = new PdfPTable(5);
         addTableHeader(table, font, isLatin);
-        for(MonthPay payment : schedule.getPayments()){
+        for (MonthPay payment : schedule.getPayments()) {
 
             table.addCell(payment.getPaymentDate());
             table.addCell(payment.getPrincipal());
@@ -332,12 +330,12 @@ public class MyController {
 
     private Schedule getSchedule(int creditId) {
         Map<String, String> param = new HashMap<>();
-        LoanOffer loan = loanOfferJpaRepository.getById((int)creditId);
+        LoanOffer loan = loanOfferJpaRepository.getById((int) creditId);
 
         param.put("creditAmount", loan.getCreditSum().toString());
-        param.put("percentRate", String.valueOf(loan.getPercent()*100));
+        param.put("percentRate", String.valueOf(loan.getPercent() * 100));
         param.put("creditTerm", String.valueOf(loan.getPeriod()));
-        param.put("annuityPayment", (loan.getProductTypeId()==1)?"true":"false");
+        param.put("annuityPayment", (loan.getProductTypeId() == 1) ? "true" : "false");
         Schedule schedule = restService.getApi(param);
 
         return schedule;
@@ -347,7 +345,7 @@ public class MyController {
     public String showPayment(@PathVariable("id") long creditId, ModelMap map) {
         // метод для отрисовки графика платежей. Заглушка.
         // Ссылается на такую же фейковую страницу.
-        Schedule schedule = getSchedule((int)creditId);
+        Schedule schedule = getSchedule((int) creditId);
         map.addAttribute("schedule", schedule);
         map.addAttribute("creditId", creditId);
 //        map.addAttribute("creditData", new OfferForm());
@@ -415,11 +413,8 @@ public class MyController {
     private void sendRequest(LoanOffer loanOffer, Client clientPojo,
                              Loan loanPojo, Bank bank, Payment loanType) {
         String addr_str;
-        if (restchecked) {
-            addr_str = POST_URL1;
-        } else {
-            addr_str = KAFKA_ADDR;
-        }
+        addr_str = KAFKA_ADDR;
+
 
         ru.sberbank.coursework.demo.data.Client client = ru.sberbank.coursework.demo.data.Client.
                 builder().
@@ -435,8 +430,10 @@ public class MyController {
                 max_period(loanPojo.getPeriod()).
                 max_sum(loanPojo.getCreditSum()).
                 product_type(loanType.getName()).
-                percent_rate(loanPojo.getPercent()).
-                build();
+                min_percent_rate(loanPojo.getPercent()).
+                //ПОПРАВИТЬ!!!!!!!!
+                        max_percent_rate(loanPojo.getPercent() + 1).
+                        build();
 
         Loan_Offer loan_offer = Loan_Offer.
                 builder().
@@ -458,15 +455,12 @@ public class MyController {
         String json_string = null;
         try {
             json_string = mapper.writeValueAsString(loan_request);
-        } catch (JsonProcessingException e) {
+        } catch (
+                JsonProcessingException e) {
 //                logger.error(String.format("BF-Controller - ERROR: %s", e.toString()));
             System.out.println(e.toString());
         }
-        if (restchecked) {
-            restFormSender.sendOrder(loan_request);
-        } else {
-            kafkaSender.sendOrder(loan_request.getId().toString(), json_string);
-        }
+        kafkaSender.sendOrder(loan_request.getId().toString(), json_string);
     }
 
 
