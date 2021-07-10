@@ -54,7 +54,9 @@ public class RequestBank {
                 max_period(loanPojo.getPeriod()).
                 max_sum(loanPojo.getCreditSum()).
                 product_type(loanType.getName()).
-                percent_rate(loanPojo.getPercent()).
+                min_percent_rate(loanPojo.getPercent()).
+                //ПЕРЕПИСАТЬ
+                max_percent_rate(loanPojo.getPercent() + 1).
                 build();
 
         Loan_Offer loan_offer = Loan_Offer.
