@@ -182,6 +182,7 @@ public class MyController {
             AnswerData answerData = answerList.getRec();
             LoanOffer loanOffer = loanOfferCrudRepository.findLoanById(Integer.parseInt(answerData.getId()));
             loanOffer.setStatus(answerData.getRes());
+
             loanOffer = loanOfferCrudRepository.save(loanOffer);
         }
 

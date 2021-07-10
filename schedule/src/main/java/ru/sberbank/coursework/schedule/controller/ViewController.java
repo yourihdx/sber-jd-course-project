@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.sberbank.coursework.schedule.ReportCreator;
 import ru.sberbank.coursework.schedule.model.GetSchedule;
@@ -61,19 +60,20 @@ public class ViewController {
         return "show";
     }
 
-    @PostMapping("/payments/")
-    public String getSchedule(@RequestParam HashMap<String, String> param, ModelMap model){
-        this.schedule = new Schedule(BigDecimal.valueOf(Double.parseDouble(param.get("creditAmount"))), Integer.parseInt(param.get("creditPeriod")),
-                BigDecimal.valueOf(Double.parseDouble(param.get("percentRate"))*100), Boolean.valueOf(param.get("annuityPayment")));
+    @PostMapping("/")
+    public String getSchedule(@ModelAttribute("getSchedule") GetSchedule getSchedule){
 
-//        this.getSchedule = getSchedule;
-        model.addAttribute("schedule", schedule);
-        return "showPayments";
+        this.schedule = new Schedule(getSchedule.getCreditAmount(), getSchedule.getCreditTerm(),
+                getSchedule.getPercentRate(), getSchedule.isAnnuityPayment());
+
+        this.getSchedule = getSchedule;
+
+        return "redirect:/show/";
     }
 
     @GetMapping(value = "/file")
     @ResponseBody
-    public ResponseEntity<Resource> getPdf(@RequestParam HashMap<String, String> param){
+    public ResponseEntity<Resource> getPdf(){ //@RequestParam HashMap<String, String> param){
 
 
         String fileName = "webcontrollerreport";

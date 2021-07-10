@@ -16,7 +16,7 @@ public class RestService {
     }
 
     public Schedule getApi(Map<String, String> param){
-        String url="http://localhost:8087/api/?";
+0        String url="http://schedule:8087/api/?";
         Iterator it = param.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry item = (Map.Entry)it.next();

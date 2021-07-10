@@ -1,5 +1,6 @@
 package ru.sberbank.coursework.schedule.model;
 
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

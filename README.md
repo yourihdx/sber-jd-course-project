@@ -4,6 +4,10 @@
 
 docker run --rm -dit -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=123 -e POSTGRES_DB=creditsys postgres:13.2-alpine
 
+БД должна быть запущена на момент сборки проекта.
+Если на этой машине выполняется перенос в докер, то данная БД должна быть остановлена.В дальнейшем можно использовать postgres
+из сборки docker-compose
+
 #### Проверить что postgres доступна на локальной машине:
 
 `pg_isready`
@@ -29,13 +33,18 @@ liquibase --username=postgres --password=123 --changeLogFile create_tables.xml u
 <property name="hibernate.connection.url">
             jdbc:postgresql://postgres:5432/creditsys
 </property>
+1.2) Прописать в liquibase.properties
+адрес postgres вместо 0.0.0.0
+1.3) В файле RestService.java прописать адрес
+http://schedule:8087/api/?
 
 !!! Внимание!
 Если приложения работают локально, то необходимо или перенастроить все настройки обратно 
 на localhost или в файле hosts прописать:
 127.0.0.1	kafka
 127.0.0.1       postgres
-Если kafka запускается в docker, а приложение локально, то необходимо изменить сроку в 
+127.0.0.1       schedule
+Если kafka запускается в docker, а приложение локально, то необходимо изменить в року в 
 docker-compose.yml :
 KAFKA_ADVERTISED_HOST_NAME: kafka
 

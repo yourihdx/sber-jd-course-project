@@ -1,5 +1,6 @@
 package ru.sberbank.coursework.schedule.model;
 
+
 import java.math.BigDecimal;
 
 public class CreditMainParam {
