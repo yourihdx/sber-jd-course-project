@@ -22,6 +22,15 @@ insert into bank (bank_name) values
 ('АТБ'),
 ('Экспобанк');
 GO;
+insert into client(full_name, birth_date, phone_number, email, passport_series_num, login, password) values
+('Иванов Иван Иванович', '1978-03-15', '7-495-123-45-55', 'ivanov@example.com', '7707323232', '1', '1'),
+('Петров Петр Петрович', '1986-12-08', '7-495-123-77-00', 'petrov@mail.example.com', '7707555001', '2', '2'),
+('Сергеева Оксана Владимировна', '1992-06-20', '7-495-444-55-23', 'oxannas@mail.ru', '4310123050', '3', '3');
+GO;
+insert into dict_product_type(id, short_description) values
+(1, 'Аннуитетные платежи'),
+(2, 'Дифференцированные платежи');
+GO;
 insert into loan (bank_id, percent_rate, max_period, max_sum, product_type_id) values
 (1, 0.064, 84, 5000000, 2),
 (2, 0.059, 84, 5000000, 1),
@@ -45,15 +54,6 @@ insert into loan (bank_id, percent_rate, max_period, max_sum, product_type_id) v
 (20, 0.07, 60, 1500000, 1),
 (21, 0.088, 60, 1000000, 1),
 (22, 0.089, 60, 2000000, 2);
-GO;
-insert into client(full_name, birth_date, phone_number, email, passport_series_num, login, password) values
-('Иванов Иван Иванович', '1978-03-15', '7-495-123-45-55', 'ivanov@example.com', '7707323232', '1', '1'),
-('Петров Петр Петрович', '1986-12-08', '7-495-123-77-00', 'petrov@mail.example.com', '7707555001', '2', '2'),
-('Сергеева Оксана Владимировна', '1992-06-20', '7-495-444-55-23', 'oxannas@mail.ru', '4310123050', '3', '3');
-GO;
-insert into dict_product_type(id, short_description) values
-(1, 'Аннуитетные платежи'),
-(2, 'Дифференцированные платежи');
 GO;
 insert into dict_loan_offer_status(id, short_description) values
 (0, 'Отказ'),
