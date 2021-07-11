@@ -23,7 +23,8 @@ public class ReportCreator {
     }
 
     public Path createReport(Schedule schedule, String filename) throws JRException, FileNotFoundException {
-        String outputFile = "src//main//resources//templates//" + filename + ".pdf";
+        String outputFile = "c://reboot//" + filename + ".pdf";
+       // String outputFile = "src//main//resources//templates//" + filename + ".pdf";
 
         JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(schedule.getPayments());
 
@@ -34,7 +35,8 @@ public class ReportCreator {
         parameters.put("rate", schedule.getPercentRate().toString());
         parameters.put("overpay", schedule.calculateTotalPercent().toString());
 
-        File file = ResourceUtils.getFile("src//main//resources//Schedule.jrxml");
+      //  File file = ResourceUtils.getFile("src//main//resources//Schedule.jrxml");
+        File file = ResourceUtils.getFile("c://reboot//Schedule.jrxml");
         InputStream input = new FileInputStream(file);
         JasperDesign jasperDesign = JRXmlLoader.load(input);
         JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);

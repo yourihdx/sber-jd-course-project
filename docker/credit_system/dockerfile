@@ -8,5 +8,4 @@ WORKDIR /app
 
 COPY credit_system-1.0-SNAPSHOT.jar ./app/credit_system.jar
 
-RUN ls
-
+COPY calibri.ttf ./app/calibri.ttf

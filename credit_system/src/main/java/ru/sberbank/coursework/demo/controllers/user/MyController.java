@@ -239,12 +239,18 @@ public class MyController {
             String str2 = "CALIBRI.TTF";
             Path path1 = Paths.get(str1);
             Path path2 = Paths.get(str2);
+            Path path3 = Paths.get(".","app","calibri.ttf");
+            String str3 = path3.toString();
+
 
             if (Files.exists(path1)) {
                 BaseFont bf = BaseFont.createFont(str1, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                 font = new Font(bf);
             } else if (Files.exists(path2)) {
                 BaseFont bf = BaseFont.createFont(str2, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                font = new Font(bf);
+            } else if (Files.exists(path3)) {
+                BaseFont bf = BaseFont.createFont(str3, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                 font = new Font(bf);
             } else {
                 font = FontFactory.getFont(FontFactory.HELVETICA);
