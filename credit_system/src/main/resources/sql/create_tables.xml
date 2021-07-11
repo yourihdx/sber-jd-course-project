@@ -16,6 +16,15 @@
             <column name="passport_series_num" type="varchar(10)"/>
             <column name="login" type="varchar(50)"/>
             <column name="password" type="varchar(250)"/>
+            <column name="user_role" type="varchar(50)" defaultValue="client" />
+            <column name="is_deleted" type="boolean" defaultValue="0"/>
+        </createTable>
+
+        <createTable tableName="dict_product_type">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="short_description" type="varchar(150)"/>
             <column name="is_deleted" type="boolean" defaultValue="0"/>
         </createTable>
 		
@@ -31,10 +40,16 @@
 			<column name="id" type="integer" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-			<column name="bank_id" type="integer"/>
-			<column name="client_id" type="integer"/>
+			<column name="bank_id" type="integer">
+                <constraints nullable="false" foreignKeyName="fk_agreement_bank" references="bank(id)"/>
+            </column>
+			<column name="client_id" type="integer">
+                <constraints nullable="false" foreignKeyName="fk_agreement_client" references="client(id)"/>
+            </column>
 			<column name="loan_id" type="integer"/>
 			<column name="loan_sum" type="money"/>
+            <column name="percent_overpay" type="money" />
+            <column name="insurance_sum" type="money" />
 			<column name="start_date" type="datetime"/>
 			<column name="period" type="integer"/>
             <column name="is_deleted" type="boolean" defaultValue="0"/>
@@ -44,8 +59,12 @@
             <column name="type_id" type="integer" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="product_type_id" type="integer"/>
-            <column name="bank_id" type="integer"/>
+            <column name="product_type_id" type="integer">
+                <constraints nullable="false" foreignKeyName="fk_loan_dict_product_type" references="dict_product_type(id)"/>
+            </column>
+            <column name="bank_id" type="integer">
+                <constraints nullable="false" foreignKeyName="fk_loan_bank" references="bank(id)"/>
+            </column>
             <column name="max_sum" type="money"/> 
             <column name="max_period" type="integer"/>
             <column name="percent_rate" type="real"/>
@@ -53,22 +72,20 @@
             <column name="is_deleted" type="boolean" defaultValue="0"/>
         </createTable>
 
-        <createTable tableName="dict_product_type">
-            <column name="id" type="integer" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="short_description" type="varchar(150)"/>
-            <column name="is_deleted" type="boolean" defaultValue="0"/>
-        </createTable>
-		
         <createTable tableName="loan_offer">
             <column name="id" type="integer" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="loan_id" type="integer"/>
-            <column name="client_id" type="integer"/>
-            <column name="product_type_id" type="integer"/>
-            <column name="bank_id" type="integer"/>
+            <column name="client_id" type="integer">
+                <constraints nullable="false" foreignKeyName="fk_loan_offer_client" references="client(id)"/>
+            </column>
+            <column name="product_type_id" type="integer">
+                <constraints nullable="false" foreignKeyName="fk_loan_offer_dict_product_type" references="dict_product_type(id)"/>
+            </column>
+            <column name="bank_id" type="integer">
+                <constraints nullable="false" foreignKeyName="fk_loan_offer_bank" references="bank(id)"/>
+            </column>
             <column name="credit_sum" type="money"/>
             <column name="period" type="integer"/>
             <column name="percent_rate" type="real"/>
