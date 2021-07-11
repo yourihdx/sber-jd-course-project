@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Банк</title>
 </head>
 
@@ -13,11 +13,8 @@
         <td>Название банка</td>
     </tr>
     <tr>
-        <td th:text="${bank.bankName}"/></td>
-
-        <td><a href="/bankss">Cancel</a></td>
-        <td><a th:href="@{/deleteBank/{id}(id=${bank.id})}">Delete</a></td>
-
+        <td th:text="${bank.bankName}"/>
+        </td>
     </tr>
 
 </table>
@@ -25,19 +22,24 @@
 
 <h2>Введите данные, чтобы отредактировать банк</h2>
 
-<form action="@{/bankss/${id}(id=${bank.id})}" method="POST">
+<form action th:href="@{/bankss/${id}(id=${bank.id})}" method="POST">
     <table bordercolor="white" border="1" width="40%">
 
         <tr>
             <td><label>Название банка</label></td>
             <td><input type="text" name="bankName"></td>
         </tr>
+    </table>
+        <br>
 
-    </table><br>
-
-    <input type="submit" value="Сохранить">
+            <input type="submit" value="Сохранить">
 
 </form>
+<p>
+    <button onclick="window.location.href = '/bankss';">  Отмена </button>
+</p>
+
+
 
 </body>
 </html>

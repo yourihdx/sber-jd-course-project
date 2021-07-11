@@ -5,11 +5,12 @@
     <title>Кредиты</title>
 </head>
 <body>
-<h1>Список всех кредитов</h1>
+<h1>Список кредитных предложений</h1>
 <!-- Thymeleaf modified page -->
 <table border="1">
     <tr>
         <td>id банка</td>
+        <td>Тип предложения</td>
         <td>Максимальная сумма</td>
         <td>Максимальный период</td>
         <td>Процентная ставка</td>
@@ -17,11 +18,11 @@
 
     <tr th:each="credit : ${creditList}">
         <td th:text="${credit.bankId}"/></td>
+        <td th:text="${credit.productTypeId}"/></td>
         <td th:text="${credit.maxSum}"/></td>
         <td th:text="${credit.maxPeriod}"/></td>
         <td th:text="${credit.percentRate}"/></td>
         <td><a th:href="@{/credits/{id}(id=${credit.id})}">Edit</a></td>
-        <td><a th:href="@{/deleteCredit/{id}(id=${credit.id})}">Delete</a></td>
     </tr>
 </table>
 <br><br>
@@ -35,6 +36,10 @@
         <tr >
             <td><label>id банка</label></td>
             <td><input type="text" name="bankId"></td>
+        </tr><br>
+        <tr >
+            <td><label>Тип предложения</label></td>
+            <td><input type="text" name="productTypeId"></td>
         </tr><br>
         <tr>
             <td><label>Максимальная сумма</label></td>

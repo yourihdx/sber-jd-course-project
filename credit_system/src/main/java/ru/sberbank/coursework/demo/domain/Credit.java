@@ -9,6 +9,7 @@ public class Credit {
 
     private int id;
     private int bankId;
+    private int productTypeId;
     private BigDecimal maxSum;
     private BigDecimal maxPeriod;
     private BigDecimal percentRate;

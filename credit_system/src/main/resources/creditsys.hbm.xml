@@ -37,6 +37,7 @@
             <generator class="identity"/>
         </id>
         <property name="bankId" column="bank_id" type="integer"/>
+        <property name="productTypeId" column="product_type_id" type="integer"/>
         <property name="maxSum" column="max_sum" type="big_decimal"/>
         <property name="maxPeriod" column="max_period" type="big_decimal"/>
         <property name="percentRate" column="percent_rate" type="big_decimal"/>

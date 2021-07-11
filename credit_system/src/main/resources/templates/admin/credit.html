@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Кредит</title>
 </head>
 
@@ -11,18 +11,23 @@
 <table border="1">
     <tr>
         <td>id банка</td>
+        <td>Тип предложения</td>
         <td>Максимальная сумма</td>
         <td>Максимальный период</td>
         <td>Процентная ставка</td>
     </tr>
 
     <tr>
-        <td th:text="${credit.bankId}"/></td>
-        <td th:text="${credit.maxSum}"/></td>
-        <td th:text="${credit.maxPeriod}"/></td>
-        <td th:text="${credit.percentRate}"/></td>
-        <td><a href="/credits">Cancel</a></td>
-        <td><a th:href="@{/deleteCredit/{id}(id=${credit.id})}">Delete</a></td>
+        <td th:text="${credit.bankId}"/>
+        </td>
+        <td th:text="${credit.productTypeId}"/>
+        </td>
+        <td th:text="${credit.maxSum}"/>
+        </td>
+        <td th:text="${credit.maxPeriod}"/>
+        </td>
+        <td th:text="${credit.percentRate}"/>
+        </td>
     </tr>
 </table>
 <br><br>
@@ -30,28 +35,42 @@
 
 <h2>Введите данные, чтобы отредактировать кредитное предложение</h2>
 
-<form action="/credits/${id}" method="POST">
+<form action th:href="@{/credits/${id}(id=${credit.id})}" method="POST">
     <table bordercolor="white" border="1" width="40%">
-    <tr >
-        <td><label>id банка</label></td>
-        <td><input type="text" name="bankId"></td>
-    </tr><br>
-    <tr>
-        <td><label>Максимальная сумма</label></td>
-        <td><input type="text" name="maxSum"></td>
-    </tr><br>
-    <tr>
-        <td><label>Максимальный период</label></td>
-        <td><input type="text" name="maxPeriod"></td>
-    </tr><br>
-    <tr>
-        <td><label>Процентная ставка</label></td>
-        <td><input type="text" name="percentRate"></td>
-    </tr>
-    </table><br>
+        <tr>
+            <td><label>id банка</label></td>
+            <td><input type="text" name="bankId"></td>
+        </tr>
+        <br>
+        <tr>
+            <td><label>Тип предложения</label></td>
+            <td><input type="text" name="productTypeId"></td>
+        </tr>
+        <br>
+        <tr>
+            <td><label>Максимальная сумма</label></td>
+            <td><input type="text" name="maxSum"></td>
+        </tr>
+        <br>
+        <tr>
+            <td><label>Максимальный период</label></td>
+            <td><input type="text" name="maxPeriod"></td>
+        </tr>
+        <br>
+        <tr>
+            <td><label>Процентная ставка</label></td>
+            <td><input type="text" name="percentRate"></td>
+        </tr>
+    </table>
+    <br>
     <input type="submit" value="Сохранить">
 
 </form>
+
+<p>
+    <button onclick="window.location.href = '/credits';"> Отмена</button>
+</p>
+
 
 </body>
 </html>
