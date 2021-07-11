@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.sberbank.coursework.schedule.ReportCreator;
 import ru.sberbank.coursework.schedule.model.GetSchedule;
@@ -27,20 +26,21 @@ import java.util.Objects;
 @RequestMapping("/show")
 public class ViewController {
 
-    private GetSchedule getSchedule = new GetSchedule(new BigDecimal(10000),  new BigDecimal(10), 10, true);
+    private GetSchedule getSchedule = new GetSchedule(new BigDecimal(10000), new BigDecimal(10), 10, true);
     private Schedule schedule = new Schedule(getSchedule);
 
-    public ViewController(){
+    public ViewController() {
 
     }
+
     @GetMapping("/")
-    public String show(Model model, @RequestParam HashMap<String, String> param){
+    public String show(Model model, @RequestParam HashMap<String, String> param) {
 
         String amount = param.get("creditAmount");
         String rate = param.get("percentRate");
         String term = param.get("creditTerm");
         String payment = param.get("annuityPayment");
-        if(Objects.nonNull(amount) && Objects.nonNull(rate) && Objects.nonNull(term)) {
+        if (Objects.nonNull(amount) && Objects.nonNull(rate) && Objects.nonNull(term)) {
             BigDecimal creditAmount = new BigDecimal(amount);
             BigDecimal percentRate = new BigDecimal(rate);
             int creditTerm = Integer.valueOf(term);
@@ -61,19 +61,20 @@ public class ViewController {
         return "show";
     }
 
-    @PostMapping("/payments/")
-    public String getSchedule(@RequestParam HashMap<String, String> param, ModelMap model){
-        this.schedule = new Schedule(BigDecimal.valueOf(Double.parseDouble(param.get("creditAmount"))), Integer.parseInt(param.get("creditPeriod")),
-                BigDecimal.valueOf(Double.parseDouble(param.get("percentRate"))*100), Boolean.valueOf(param.get("annuityPayment")));
+    @PostMapping("/")
+    public String getSchedule(@ModelAttribute("getSchedule") GetSchedule getSchedule) {
 
-//        this.getSchedule = getSchedule;
-        model.addAttribute("schedule", schedule);
-        return "showPayments";
+        this.schedule = new Schedule(getSchedule.getCreditAmount(), getSchedule.getCreditTerm(),
+                getSchedule.getPercentRate(), getSchedule.isAnnuityPayment());
+
+        this.getSchedule = getSchedule;
+
+        return "redirect:/show/";
     }
 
     @GetMapping(value = "/file")
     @ResponseBody
-    public ResponseEntity<Resource> getPdf(@RequestParam HashMap<String, String> param){
+    public ResponseEntity<Resource> getPdf() { //@RequestParam HashMap<String, String> param){
 
 
         String fileName = "webcontrollerreport";

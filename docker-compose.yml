@@ -1,6 +1,7 @@
 version: '2'
 services:
   zookeeper:
+    container_name: zookeeper
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
@@ -21,13 +22,10 @@ services:
       POSTGRES_PASSWORD: 123
       POSTGRES_USER: postgres
       POSTGRES_DB: creditsys
-      LANGUAGE: ru_RU.UTF-8
-      LANG: ru_RU.UTF-8
-      LC_ALL: ru_RU.UTF-8
     ports:
       - "5432:5432"
-#  liquibase:
-#    image: liquibase/liquibase
+  #  liquibase:
+  #    image: liquibase/liquibase
   bank_answer:
     container_name: bank_answer
     build: ./bank_answer
@@ -41,4 +39,12 @@ services:
     restart: always
     ports:
       - "8085:8085"
+      - "465:465"
     command: java -jar ./app/credit_system.jar
+  schedule:
+    container_name: schedule
+    build: ./schedule
+    restart: always
+    ports:
+      - "8087:8087"
+    command: java -jar ./app/schedule.jar

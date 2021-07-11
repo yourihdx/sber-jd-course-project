@@ -41,3 +41,10 @@ services:
       - "8085:8085"
       - "465:465"
     command: java -jar ./app/credit_system.jar
+  schedule:
+    container_name: schedule
+    build: ./schedule
+    restart: always
+    ports:
+      - "8087:8087"
+    command: java -jar ./app/schedule.jar
