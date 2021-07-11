@@ -13,13 +13,16 @@ docker run --rm -dit -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD
 #### Коннект к БД из CLI:
 
 `psql creditsys postgres`
+
 `\dt` - список таблиц
 
-#### Применить скрипт liquibase:
+`\l` - список БД
 
+#### Чтобы применить скрипт liquibase из CLI:
+###### (применять не нужно, работает при сборке)
 liquibase --username=postgres --password=123 --changeLogFile create_tables.xml update
 
-#### Ветка master_copy для проверки слияния
+
 
 #### Сборка для DOCKER
 1) Во всех application поменять 
