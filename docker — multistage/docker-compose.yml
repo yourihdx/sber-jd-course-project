@@ -1,0 +1,51 @@
+version: '2'
+services:
+  postgres:
+    image: postgres:13.2-alpine
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: postgres
+      POSTGRES_DB: creditsys
+    ports:
+      - "5432:5432"
+  zookeeper:
+    container_name: zookeeper
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    container_name: kafka
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  bank_answer:
+    container_name: bank_answer
+    build: ./bank_answer
+    restart: always
+    ports:
+      - "8086:8086"
+    command: java -jar ./app/bank_answer.jar
+  schedule:
+    container_name: schedule
+    build: ./schedule
+    restart: always
+    ports:
+      - "8087:8087"
+    command: java -jar ./app/schedule.jar
+  credit_system:
+    container_name: credit_system
+  #  depends_on:
+  #    - postgres    
+    build: ./credit_system
+    restart: always
+    ports:
+      - "8085:8085"
+      - "465:465"
+    command: java -jar ./app/credit_system.jar
+    mem_limit: 4GB
