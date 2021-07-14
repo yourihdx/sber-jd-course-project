@@ -26,7 +26,19 @@ docker run --rm -dit -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD
 ###### (применять не нужно, работает при сборке)
 liquibase --username=postgres --password=123 --changeLogFile create_tables.xml update
 
-
+#### Работа с приложением
+Подготовка (если запуск в docker, то не нужно):
+1) Запустить zookeeper, kafka, postgres
+2) Запустить модули bank_answer, credit_system, schedule
+Стартовые страницы:
+- Основной модуль:
+http://localhost:8085
+- Окно статистики bank_answer
+http://localhost:8086/bank_answer/data
+- Окно модуля Schedule:
+http://localhost:8087/show/
+Для работы используется только окно основного модуля, остальные - для контроля работы
+соответствующих модулей.
 
 #### Сборка для DOCKER
 1) Во всех application поменять 
@@ -87,3 +99,4 @@ docker-compose up -d
 - Docker Desktop: двойной щелчок по имени контейнера
 - Docker Toolkit: Запустить Docker Quickstart Terminal и выполнить 
 docker attach bank_answer
+
