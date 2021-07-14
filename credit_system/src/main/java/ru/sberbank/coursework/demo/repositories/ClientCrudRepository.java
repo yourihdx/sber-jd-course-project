@@ -20,4 +20,12 @@ public interface ClientCrudRepository extends CrudRepository<Client, Integer> {
     @Query(value = "select c from Client c where c.passportSeriesNum = ?1 and c.id != ?2")
     List<Client> findClientBypassportSeriesNumAndIdIsNotEqualAndIsDeletedIsFalse(String passport, int id);
     Client save(Client client);
+
+    @Query(value = "select count(birth_date) from client " +
+            "where extract(year from now()) - extract(year from birth_date) between ?1 and ?2 ;" , nativeQuery = true)
+    Long getDateInterval(int begin, int end);
+
+    @Query(value = "select avg(extract(year from now()) - " +
+            "extract(year from birth_date)) from client", nativeQuery = true)
+    int avgAge();
 }

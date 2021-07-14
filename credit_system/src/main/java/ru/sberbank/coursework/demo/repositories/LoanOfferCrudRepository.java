@@ -20,4 +20,10 @@ public interface LoanOfferCrudRepository extends CrudRepository <LoanOffer, Inte
 
     LoanOffer save(LoanOffer offer);
 
+    @Query(value = "select count(status) from LoanOffer where status = ?1")
+    int countLoanStatus(int statusId);
+
+    @Query(value = "select sum (creditSum) from LoanOffer " )
+    Long sumAllAmount();
+
 }
