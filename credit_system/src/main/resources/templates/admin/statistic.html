@@ -1,10 +1,72 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="refresh" content="10"/>
-
     <title>Статистика</title>
+    <style>
+        body{
+            text-align:center;
+            background-color:black;
+            color:Linen;
+        }
+        div{
+            text-align:left;
+            margin-left:200px;
+            margin-right:200px;
+            border-style:double;
+            background-color:Navy;
+        }
+        table{
+            border-style:solid;
+            border-color:white;
+        }
+        h2{
+            text-align:center;
+        }
+        p{
+            border-style:dotted;
+            border-width:1px;
+        }
+    </style>
 </head>
 <body>
-Here will be statistic stuff
+<div>
+    <a href="/admin">Назад</a><br>
+    <H2>Статистика</H2>
+    <p>Количество клиентов: <span th:text="${clientCount}"></span></p>
+    <p>Средний возраст клиента: <span th:text="${avgAge}"></span></p>
+    <p>Статистика по возрастам</p>
+    <table>
+        <tr>
+            <td>Возраст от - до </td>
+            <td>Количество клиетов</td>
+        </tr>
+        <tr th:each="entry: ${countAge}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${entry.value}"></td>
+        </tr>
+    </table>
+    <p>Подано заявок на кредит <span th:text="${loanAskCount}"></span></p>
+    <table>
+        <tr>
+            <td>Статус заявки </td>
+            <td>Количество заявок</td>
+        </tr>
+        <tr th:each="countStat: ${countLoanStatus}">
+            <td th:text="${countStat.key}"></td>
+            <td th:text="${countStat.value}"></td>
+        </tr>
+    </table>
+
+    <p>Процент одобрения: <span th:text="${agreementPercent}"></span></p>
+    <p>Всего одобрено кредитов на сумму: <span th:text="${totalAmount}"></span></p>
+    <p>Количество банков в системе <span th:text="${bankCount}"></span></p>
+    <p>Количество предложений от всех банков <span th:text="${loanCount}"></span></p>
+</div>
+
+
 </body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Статистика</title>
+</head>
+</html>
