@@ -8,6 +8,10 @@ FROM maven:3.8.1-openjdk-8 AS maven-build-cs
 WORKDIR /usr/src
 COPY --from=git /usr/src/sber-jd-course-project/credit_system ./credit_system
 COPY --from=git /usr/src/sber-jd-course-project/pom.xml ./pom.xml
+#COPY /sber-jd-course-project/credit_system ./credit_system
+#COPY /sber-jd-course-project/pom.xml ./pom.xml
+COPY --from=git /usr/src/sber-jd-course-project/credit_system/src/main/resources/hibernate-prod.cfg.xml ./credit_system/src/main/resources/hibernate.cfg.xml
+COPY --from=git /usr/src/sber-jd-course-project/credit_system/src/main/resources/sql/liquibase-prod.properties ./credit_system/src/main/resources/sql/liquibase.properties
 WORKDIR /usr/src/credit_system
 RUN mvn dependency:go-offline
 RUN mvn package spring-boot:repackage -DskipTests
@@ -22,4 +26,4 @@ WORKDIR /app
 
 COPY --from=maven-build-cs /usr/src/credit_system/target/credit_system-1.0-SNAPSHOT.jar ./app/credit_system.jar
 COPY --from=maven-build-cs /usr/src/credit_system/calibri.ttf ./app/calibri.ttf
-
+COPY --from=maven-build-cs /usr/src/credit_system/src/main/resources/application-prod.properties ./app/application-prod.properties

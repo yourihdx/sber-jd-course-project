@@ -9,8 +9,13 @@ FROM maven:3.8.1-openjdk-8 AS maven-build
 WORKDIR /usr/src
 COPY --from=git /usr/src/sber-jd-course-project/bank_answer ./bank_answer
 COPY --from=git /usr/src/sber-jd-course-project/pom.xml ./pom.xml
+#COPY /sber-jd-course-project/bank_answer ./bank_answer
+#COPY /sber-jd-course-project/pom.xml ./pom.xml
+
 WORKDIR /usr/src/bank_answer
-RUN mvn package spring-boot:repackage
+RUN mvn dependency:go-offline
+RUN mvn package spring-boot:repackage 
+#-DskipTests
 
 
 FROM openjdk:8-jre
