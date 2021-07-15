@@ -74,7 +74,6 @@ public class MyController {
     @Autowired
     RestService restService;
 
-    private String POST_URL1 = "http://localhost:8080/json_in";
     private String KAFKA_ADDR = "credit_sender";
 
     private final RestFormSender restFormSender;
