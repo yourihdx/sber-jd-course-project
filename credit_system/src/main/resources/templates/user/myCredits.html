@@ -46,6 +46,8 @@
 	<body>
 	<div>
 		<h1>Выбор кредита</h1>
+		<h3>Сумма страховки входит в сумму кредита</h3>
+		<h3>По одобренным кредитам указаны одобренные банками ставки</h3>
 
 		<table border="1">
 			<tr>
@@ -63,7 +65,7 @@
 				<td th:text="${credit.bank}"></td>
 				<td th:text="${credit.limit}"></td>
 				<td th:text="${credit.period}"></td>
-				<td th:text="${credit.percent}"></td>
+                                <td th:text="${#numbers.formatDecimal(credit.percent*100, 1, 1)}"/>
 				<td th:text="${credit.payment}"></td>
 				<td th:text="${credit.status}"></td>
 				<td>

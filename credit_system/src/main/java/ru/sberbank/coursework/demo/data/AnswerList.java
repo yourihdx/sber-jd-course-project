@@ -39,7 +39,6 @@ public class AnswerList {
         AnswerData resStr;
         synchronized (instance) {
             resStr = data.pop();
-
         }
         return resStr;
     }
