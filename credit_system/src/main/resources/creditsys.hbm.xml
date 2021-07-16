@@ -40,7 +40,8 @@
         <property name="productTypeId" column="product_type_id" type="integer"/>
         <property name="maxSum" column="max_sum" type="big_decimal"/>
         <property name="maxPeriod" column="max_period" type="big_decimal"/>
-        <property name="percentRate" column="percent_rate" type="big_decimal"/>
+        <property name="minpercentRate" column="min_percent_rate" type="big_decimal"/>
+        <property name="maxpercentRate" column="max_percent_rate" type="big_decimal"/>
 <!--        <property name="isDeleted" column="is_deleted" type="boolean"/>-->
     </class>
 

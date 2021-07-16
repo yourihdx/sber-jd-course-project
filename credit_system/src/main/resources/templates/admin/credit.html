@@ -14,7 +14,8 @@
         <td>Тип предложения</td>
         <td>Максимальная сумма</td>
         <td>Максимальный период</td>
-        <td>Процентная ставка</td>
+        <td>Мин. процентная ставка</td>
+        <td>Макс. процентная ставка</td>
     </tr>
 
     <tr>
@@ -26,8 +27,12 @@
         </td>
         <td th:text="${credit.maxPeriod}"/>
         </td>
-        <td th:text="${credit.percentRate}"/>
+        <td th:text="${#numbers.formatDecimal(credit.minpercentRate*100, 1, 2)}"/>
         </td>
+        </td>
+        <td th:text="${#numbers.formatDecimal(credit.maxpercentRate*100, 1, 2)}"/>
+        </td>
+
     </tr>
 </table>
 <br><br>
@@ -58,8 +63,12 @@
         </tr>
         <br>
         <tr>
-            <td><label>Процентная ставка</label></td>
-            <td><input type="text" name="percentRate"></td>
+            <td><label>Мин. процентная ставка</label></td>
+            <td><input type="text" name="minpercentRate"></td>
+        </tr>
+   	<tr>
+            <td><label>Макс. процентная ставка</label></td>
+            <td><input type="text" name="maxpercentRate"></td>
         </tr>
     </table>
     <br>

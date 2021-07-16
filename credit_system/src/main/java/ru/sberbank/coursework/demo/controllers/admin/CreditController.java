@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.sberbank.coursework.demo.dao.CreditDao;
 import ru.sberbank.coursework.demo.domain.Credit;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -43,6 +44,10 @@ public class CreditController {
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
         CreditDao creditDao = new CreditDao(sessionFactory);
         credit.setId(id);
+        BigDecimal minpercent=credit.getMinpercentRate().divide(BigDecimal.valueOf(100));
+        credit.setMinpercentRate(minpercent);
+        BigDecimal maxpercent=credit.getMaxpercentRate().divide(BigDecimal.valueOf(100));
+        credit.setMaxpercentRate(maxpercent);
         creditDao.updateCredit(credit);
         List<Credit> credits = creditDao.getAllCredits();
         model.addAttribute("creditList", credits);

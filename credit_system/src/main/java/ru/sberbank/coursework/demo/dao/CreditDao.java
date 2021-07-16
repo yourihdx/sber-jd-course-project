@@ -61,7 +61,7 @@ public class CreditDao {
             if (Objects.nonNull(transaction)) {
                 transaction.rollback();
             }
-            System.out.println("Get all credit info fail: " + e.getMessage());
+            System.out.println("Get all credit info fail1: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
