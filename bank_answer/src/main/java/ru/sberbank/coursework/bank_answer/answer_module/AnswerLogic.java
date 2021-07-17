@@ -67,7 +67,7 @@ public class AnswerLogic {
             double percent_rate = 0;
             if (res == 1) {
                 comment = COMMENTS[0];
-                percent_rate = (Math.ceil((mim_percent_rate + Math.random() * (max_percent_rate - mim_percent_rate)) * 10)) / 10;
+                percent_rate = (Math.ceil((mim_percent_rate + Math.random() * (max_percent_rate - mim_percent_rate)) * 100)) / 100;
             } else {
                 Integer rnd = (int) (Math.random() * 3 + 0.1);
                 comment = COMMENTS[rnd];

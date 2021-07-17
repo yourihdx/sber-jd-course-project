@@ -172,7 +172,7 @@ public class MyController {
             LoanOffer loanOffer = loanOfferCrudRepository.findLoanById(Integer.parseInt(answerData.getId()));
             loanOffer.setStatus(answerData.getRes());
             //Меняем процентную ставку на одобренную банком
-            if (answerData.getRes()==1) {
+            if (answerData.getRes() == 1) {
                 loanOffer.setPercent(answerData.getPercent_rate() / 100);
             }
             loanOffer = loanOfferCrudRepository.save(loanOffer);
@@ -231,7 +231,7 @@ public class MyController {
             String str2 = "CALIBRI.TTF";
             Path path1 = Paths.get(str1);
             Path path2 = Paths.get(str2);
-            Path path3 = Paths.get(".","app","calibri.ttf");
+            Path path3 = Paths.get(".", "app", "calibri.ttf");
             String str3 = path3.toString();
 
 
@@ -357,7 +357,7 @@ public class MyController {
         // Save New Credit Info
         // Поиск и сохранение предложений банков по введенным параметрам
         // Сумма, срок, процент
-        List<LoanList> loans = loanJpaRepository.findAllByClientCriteria(credit.getPeriod(), credit.getLimit(), credit.getPercent()/100);
+        List<LoanList> loans = loanJpaRepository.findAllByClientCriteria(credit.getPeriod(), credit.getLimit(), credit.getPercent() / 100);
 
         ArrayList<OfferForm> credits = new ArrayList<>();
         for (LoanList loan : loans) {
@@ -386,7 +386,7 @@ public class MyController {
             offer = creditsList.getCredits().get(i);
             if (offer.isSelected()) {
                 //Добавленная сумма кредита на сумму страховки (3% в год)
-                addInsurance=(long)(offer.getReqLimit()*0.03*(offer.getReqPeriod()/12));
+                addInsurance = (long) (offer.getReqLimit() * 0.03 * (offer.getReqPeriod() / 12));
                 loan = new LoanOffer((int) clientId, (int) offer.getId(), offer.getPaymentId(), offer.getBankId(),
                         BigDecimal.valueOf(offer.isInsurance() ? offer.getReqLimit() + addInsurance : offer.getReqLimit()), offer.getReqPeriod(),
                         offer.isInsurance() ? offer.getPercent() : offer.getPercent() + addPercent,
@@ -431,10 +431,9 @@ public class MyController {
                 max_period(loanPojo.getPeriod()).
                 max_sum(loanPojo.getCreditSum()).
                 product_type(loanType.getName()).
-                min_percent_rate(loanPojo.getPercent()*100).
-                //ПОПРАВИТЬ!!!!!!!!
-                        max_percent_rate(loanPojo.getPercent()*100 + 5).
-                        build();
+                min_percent_rate(loanPojo.getPercent() * 100).
+                max_percent_rate(loanPojo.getMax_percent() * 100).
+                build();
 
         Loan_Offer loan_offer = Loan_Offer.
                 builder().
