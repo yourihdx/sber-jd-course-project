@@ -14,8 +14,7 @@ COPY --from=git /usr/src/sber-jd-course-project/pom.xml ./pom.xml
 
 WORKDIR /usr/src/bank_answer
 RUN mvn dependency:go-offline
-RUN mvn package spring-boot:repackage 
-#-DskipTests
+RUN mvn package spring-boot:repackage -DskipTests
 
 
 FROM openjdk:8-jre
