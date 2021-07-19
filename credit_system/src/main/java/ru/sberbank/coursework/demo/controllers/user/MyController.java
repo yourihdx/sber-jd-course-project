@@ -8,25 +8,20 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-//import org.omg.CORBA.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ru.sberbank.coursework.demo.data.MonthPay;
-import ru.sberbank.coursework.demo.data.Schedule;
 import ru.sberbank.coursework.demo.data.*;
 import ru.sberbank.coursework.demo.pojo.Client;
 import ru.sberbank.coursework.demo.pojo.Loan;
-import ru.sberbank.coursework.demo.request_module.KafkaSender;
-import ru.sberbank.coursework.demo.request_module.RestFormSender;
-
 import ru.sberbank.coursework.demo.pojo.*;
 import ru.sberbank.coursework.demo.repositories.*;
+import ru.sberbank.coursework.demo.request_module.KafkaSender;
+import ru.sberbank.coursework.demo.request_module.RestFormSender;
 import ru.sberbank.coursework.demo.service.RestService;
-//import sun.misc.IOUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
@@ -34,11 +29,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
-
-import static com.itextpdf.text.FontFactory.getFont;
 
 @Controller
 @RequestMapping(value = "/demo")
@@ -82,6 +77,7 @@ public class MyController {
         map.addAttribute("message", "Введите логин и пароль");
         return "user/login";
     }
+
 
     /*
     Регистрация нового пользователя client
