@@ -53,4 +53,3 @@ services:
       - "8085:8085"
       - "465:465"
     command: java -jar ./app/credit_system.jar --spring.config.name=application-prod
-  #  mem_limit: 4GB

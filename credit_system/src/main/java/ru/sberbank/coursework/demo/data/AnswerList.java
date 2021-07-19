@@ -31,8 +31,6 @@ public class AnswerList {
     /**
      * Чтение одного элемента из Map БД
      * Map не является потокозащищенной, поэтому используем синхронизацию
-     *
-     * @param id - идентификатор записи
      * @return
      */
     public AnswerData getRec() {
