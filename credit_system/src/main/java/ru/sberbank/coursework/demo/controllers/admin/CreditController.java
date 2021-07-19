@@ -44,9 +44,9 @@ public class CreditController {
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
         CreditDao creditDao = new CreditDao(sessionFactory);
         credit.setId(id);
-        BigDecimal minpercent=credit.getMinpercentRate().divide(BigDecimal.valueOf(100));
+        BigDecimal minpercent = credit.getMinpercentRate().divide(BigDecimal.valueOf(100));
         credit.setMinpercentRate(minpercent);
-        BigDecimal maxpercent=credit.getMaxpercentRate().divide(BigDecimal.valueOf(100));
+        BigDecimal maxpercent = credit.getMaxpercentRate().divide(BigDecimal.valueOf(100));
         credit.setMaxpercentRate(maxpercent);
         creditDao.updateCredit(credit);
         List<Credit> credits = creditDao.getAllCredits();
