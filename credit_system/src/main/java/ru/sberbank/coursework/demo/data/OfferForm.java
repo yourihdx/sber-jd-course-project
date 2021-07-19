@@ -22,8 +22,6 @@ public class OfferForm {
     public OfferForm() {
     }
 
-    ;
-
     public OfferForm(String bank, int bankId, long limit, int period, double percent,
                      long reqLimit, int reqPeriod, double reqPercent, long id,
                      String payment, int paymentId, boolean insurance, int statusId, String status, boolean selected) {

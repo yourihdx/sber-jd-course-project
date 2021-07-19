@@ -12,7 +12,8 @@ public class Credit {
     private int productTypeId;
     private BigDecimal maxSum;
     private BigDecimal maxPeriod;
-    private BigDecimal percentRate;
+    private BigDecimal minpercentRate;
+    private BigDecimal maxpercentRate;
     private boolean isDeleted;
 
 }

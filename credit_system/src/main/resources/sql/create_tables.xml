@@ -67,7 +67,8 @@
             </column>
             <column name="max_sum" type="money"/> 
             <column name="max_period" type="integer"/>
-            <column name="percent_rate" type="real"/>
+            <column name="min_percent_rate" type="real"/>
+            <column name="max_percent_rate" type="real"/>
             <column name="comment" type="varchar(500)"/>
             <column name="is_deleted" type="boolean" defaultValue="0"/>
         </createTable>

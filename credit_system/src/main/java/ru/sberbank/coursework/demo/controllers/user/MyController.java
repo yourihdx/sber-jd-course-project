@@ -8,47 +8,32 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.codec.Base64;
-import liquibase.pro.packaged.A;
-import lombok.var;
-import org.codehaus.plexus.util.IOUtil;
-import org.hibernate.internal.build.AllowPrintStacktrace;
-//import org.omg.CORBA.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ru.sberbank.coursework.demo.*;
-import ru.sberbank.coursework.demo.data.MonthPay;
-import ru.sberbank.coursework.demo.data.Schedule;
 import ru.sberbank.coursework.demo.data.*;
 import ru.sberbank.coursework.demo.pojo.Client;
 import ru.sberbank.coursework.demo.pojo.Loan;
-import ru.sberbank.coursework.demo.request_module.KafkaSender;
-import ru.sberbank.coursework.demo.request_module.RestFormSender;
-
-import ru.sberbank.coursework.demo.request_module.RequestBank;
 import ru.sberbank.coursework.demo.pojo.*;
 import ru.sberbank.coursework.demo.repositories.*;
+import ru.sberbank.coursework.demo.request_module.KafkaSender;
+import ru.sberbank.coursework.demo.request_module.RestFormSender;
 import ru.sberbank.coursework.demo.service.RestService;
-//import sun.misc.IOUtils;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
-
-import static com.itextpdf.text.FontFactory.getFont;
-import static com.itextpdf.text.pdf.BidiOrder.B;
 
 @Controller
 @RequestMapping(value = "/demo")
@@ -92,6 +77,7 @@ public class MyController {
         map.addAttribute("message", "Введите логин и пароль");
         return "user/login";
     }
+
 
     /*
     Регистрация нового пользователя client
@@ -181,7 +167,10 @@ public class MyController {
             AnswerData answerData = answerList.getRec();
             LoanOffer loanOffer = loanOfferCrudRepository.findLoanById(Integer.parseInt(answerData.getId()));
             loanOffer.setStatus(answerData.getRes());
-
+            //Меняем процентную ставку на одобренную банком
+            if (answerData.getRes() == 1) {
+                loanOffer.setPercent(answerData.getPercent_rate() / 100);
+            }
             loanOffer = loanOfferCrudRepository.save(loanOffer);
         }
 
@@ -238,7 +227,7 @@ public class MyController {
             String str2 = "CALIBRI.TTF";
             Path path1 = Paths.get(str1);
             Path path2 = Paths.get(str2);
-            Path path3 = Paths.get(".","app","calibri.ttf");
+            Path path3 = Paths.get(".", "app", "calibri.ttf");
             String str3 = path3.toString();
 
 
@@ -364,7 +353,7 @@ public class MyController {
         // Save New Credit Info
         // Поиск и сохранение предложений банков по введенным параметрам
         // Сумма, срок, процент
-        List<LoanList> loans = loanJpaRepository.findAllByClientCriteria(credit.getPeriod(), credit.getLimit(), credit.getPercent());
+        List<LoanList> loans = loanJpaRepository.findAllByClientCriteria(credit.getPeriod(), credit.getLimit(), credit.getPercent() / 100);
 
         ArrayList<OfferForm> credits = new ArrayList<>();
         for (LoanList loan : loans) {
@@ -392,6 +381,8 @@ public class MyController {
         for (int i = 0; i < creditsList.getCredits().size(); i++) {
             offer = creditsList.getCredits().get(i);
             if (offer.isSelected()) {
+                //Добавленная сумма кредита на сумму страховки (3% в год)
+                addInsurance = (long) (offer.getReqLimit() * 0.03 * (offer.getReqPeriod() / 12));
                 loan = new LoanOffer((int) clientId, (int) offer.getId(), offer.getPaymentId(), offer.getBankId(),
                         BigDecimal.valueOf(offer.isInsurance() ? offer.getReqLimit() + addInsurance : offer.getReqLimit()), offer.getReqPeriod(),
                         offer.isInsurance() ? offer.getPercent() : offer.getPercent() + addPercent,
@@ -436,10 +427,9 @@ public class MyController {
                 max_period(loanPojo.getPeriod()).
                 max_sum(loanPojo.getCreditSum()).
                 product_type(loanType.getName()).
-                min_percent_rate(loanPojo.getPercent()).
-                //ПОПРАВИТЬ!!!!!!!!
-                        max_percent_rate(loanPojo.getPercent() + 1).
-                        build();
+                min_percent_rate(loanPojo.getPercent() * 100).
+                max_percent_rate(loanPojo.getMax_percent() * 100).
+                build();
 
         Loan_Offer loan_offer = Loan_Offer.
                 builder().

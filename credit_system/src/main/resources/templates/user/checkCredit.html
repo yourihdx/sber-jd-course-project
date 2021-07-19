@@ -44,11 +44,14 @@
 </head>
 <body>
 <div>
-    <p><a href = "/index">На главную</a></p>
+<!--    <p><a href = "/index">На главную</a></p> -->
+<p><a href="#" onclick="javascript:history.back();return false" title="Назад">Назад</а></p>
+
 <!--    <p><a href="#" onclick="self.close()">Назад</a></p>-->
 
     <form action="#" th:action="@{/demo/approveOffer/{id}(id=${id})}" th:object="${creditData}" method="POST">
     <h1>Проверка параметров кредита для оформления</h1>
+    <div th:with="perc=${#numbers.formatDecimal(creditData.percent*100, 1, 2)}">
     <table border="1">
         <tr>
             <td>
@@ -81,7 +84,7 @@
                 Процентная ставка
             </td>
             <td>
-                <input type="text" name="percent" th:field="*{percent}" readonly>
+                <input type="text" name="percent" th:value="${perc}" readonly>
             </td>
         </tr>
         <tr>
@@ -89,7 +92,7 @@
                 Способ платежа
             </td>
             <td>
-                <input type="text" name="percent" th:field="*{payment}" readonly>
+                <input type="text" name="payment" th:field="*{payment}" readonly>
             </td>
         </tr>
     </table>
